@@ -6,32 +6,32 @@
 <title>NQ Futures Trainer</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:#0d0f14; --bg2:#13161d; --bg3:#1a1e28;
-  --border:rgba(255,255,255,0.07); --border2:rgba(255,255,255,0.13);
-  --text:#e8eaf0; --muted:#6b7280; --dim:#3d4455;
-  --up:#00d4a0; --dn:#ff4d6d;
-  --up2:rgba(0,212,160,0.13); --dn2:rgba(255,77,109,0.13);
-  --accent:#4f8ef7; --gold:#f59e0b; --purple:#a78bfa;
-  --mono:'IBM Plex Mono',monospace; --sans:'DM Sans',sans-serif;
+:root{
+  --bg:#0d0f14;--bg2:#13161d;--bg3:#1a1e28;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
+  --text:#e8eaf0;--muted:#6b7280;--dim:#3d4455;
+  --up:#00d4a0;--dn:#ff4d6d;
+  --up2:rgba(0,212,160,0.13);--dn2:rgba(255,77,109,0.13);
+  --accent:#4f8ef7;--gold:#f59e0b;--purple:#a78bfa;
+  --mono:'IBM Plex Mono',monospace;--sans:'DM Sans',sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{height:100%;-webkit-tap-highlight-color:transparent;}
 body{height:100%;background:var(--bg);color:var(--text);font-family:var(--sans);overflow:hidden;}
 
-/* Desktop layout */
+/* ── Desktop grid ── */
 .app{display:grid;grid-template-rows:52px 1fr 40px;grid-template-columns:1fr 256px;height:100dvh;}
 .header{grid-column:1/-1;display:flex;align-items:center;gap:12px;padding:0 14px;border-bottom:1px solid var(--border);background:var(--bg2);z-index:10;min-width:0;}
 .chart-wrap{grid-row:2;grid-column:1;position:relative;overflow:hidden;background:var(--bg);min-width:0;}
 .sidebar{grid-row:2;grid-column:2;display:flex;flex-direction:column;background:var(--bg2);border-left:1px solid var(--border);overflow-y:auto;}
 .statusbar{grid-column:1/-1;display:flex;align-items:center;gap:12px;padding:0 14px;border-top:1px solid var(--border);background:var(--bg2);font-family:var(--mono);font-size:10px;color:var(--muted);overflow:hidden;}
 
-/* Mobile layout */
+/* ── Mobile overrides ── */
 @media(max-width:640px){
   .app{grid-template-rows:auto 1fr auto auto;grid-template-columns:1fr;height:100dvh;}
   .header{grid-column:1;flex-wrap:wrap;row-gap:4px;padding:8px 10px;height:auto;}
   .chart-wrap{grid-row:2;grid-column:1;}
-  .sidebar{grid-row:3;grid-column:1;border-left:none;border-top:1px solid var(--border);overflow-y:visible;}
+  .sidebar{grid-row:3;grid-column:1;border-left:none;border-top:1px solid var(--border);overflow:hidden;}
   .statusbar{grid-row:4;grid-column:1;height:30px;font-size:10px;padding:0 10px;}
   .hide-m{display:none!important;}
   .sblock{padding:9px 10px 8px;}
@@ -68,9 +68,26 @@ select.btn{padding:5px 6px;}
 /* Tooltip */
 #tip{position:absolute;background:#1e2330;border:1px solid var(--border2);border-radius:6px;padding:7px 11px;font-family:var(--mono);font-size:10px;pointer-events:none;display:none;z-index:20;line-height:1.8;min-width:110px;}
 
-/* Sidebar */
+/* Sidebar blocks */
 .sblock{padding:12px 14px 10px;border-bottom:1px solid var(--border);}
 .sblock-title{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:9px;font-weight:500;}
+
+/* Collapsible panel (mobile) */
+.panel-header{
+  display:none;
+  align-items:center;justify-content:space-between;
+  padding:10px 12px;cursor:pointer;user-select:none;
+  background:var(--bg2);border-bottom:1px solid var(--border);
+}
+.panel-header-left{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text);}
+.panel-arrow{font-size:11px;color:var(--muted);transition:transform .2s;}
+.panel-arrow.open{transform:rotate(180deg);}
+.panel-body{overflow:hidden;transition:max-height .25s ease;}
+@media(max-width:640px){
+  .panel-header{display:flex;}
+  .panel-body{max-height:0;}
+  .panel-body.open{max-height:600px;}
+}
 
 /* Position card */
 .pos-card{background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:9px 12px;}
@@ -95,12 +112,12 @@ select.btn{padding:5px 6px;}
 .tag{font-size:11px;padding:3px 9px;border-radius:3px;cursor:pointer;border:1px solid var(--border2);color:var(--muted);transition:all .14s;}
 .tag.active{background:rgba(167,139,250,.15);border-color:var(--purple);color:var(--purple);}
 
-/* MA toggles */
-.ma-row{display:flex;gap:5px;flex-wrap:wrap;}
-.ma-btn{font-size:11px;font-family:var(--mono);padding:3px 8px;border-radius:3px;cursor:pointer;border:1px solid;transition:all .14s;}
-.ma-btn.off{opacity:.3;}
+/* Indicator toggles */
+.ind-row{display:flex;gap:5px;flex-wrap:wrap;}
+.ind-btn{font-size:11px;font-family:var(--mono);padding:3px 9px;border-radius:3px;cursor:pointer;border:1px solid;transition:all .14s;}
+.ind-btn.off{opacity:.3;}
 
-/* Mobile bottom trade bar */
+/* Mobile bottom bar */
 .trade-bar{display:none;}
 @media(max-width:640px){
   .trade-bar{display:flex;gap:6px;padding:8px 10px;background:var(--bg2);border-top:1px solid var(--border);}
@@ -114,6 +131,10 @@ select.btn{padding:5px 6px;}
 #notif.win{background:var(--up2);border-color:var(--up);color:var(--up);}
 #notif.loss{background:var(--dn2);border-color:var(--dn);color:var(--dn);}
 #notif.info{background:rgba(79,142,247,.12);border-color:var(--accent);color:var(--accent);}
+
+/* Zoom hint badge */
+#zoomBadge{position:absolute;top:8px;left:8px;background:rgba(79,142,247,.18);border:1px solid rgba(79,142,247,.3);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--accent);padding:3px 8px;pointer-events:none;opacity:0;transition:opacity .3s;}
+#zoomBadge.show{opacity:1;}
 
 ::-webkit-scrollbar{width:3px;height:3px;}
 ::-webkit-scrollbar-thumb{background:var(--dim);border-radius:2px;}
@@ -153,13 +174,14 @@ select.btn{padding:5px 6px;}
   <canvas id="chartCanvas"></canvas>
   <canvas id="markCanvas"></canvas>
   <div id="tip"></div>
+  <div id="zoomBadge"></div>
 </div>
 
-<!-- MOBILE TRADE BAR -->
+<!-- MOBILE TRADE BAR (always visible bottom) -->
 <div class="trade-bar">
   <button class="btn btn-up" onclick="openTrade('long')">▲ 做多</button>
   <button class="btn btn-dn" onclick="openTrade('short')">▼ 做空</button>
-  <button class="btn btn-gold" id="closeBtnM" style="display:none;" onclick="closeTrade()">✕ 平倉</button>
+  <button class="btn btn-gold" id="closeBtnM" style="display:none;flex:1;" onclick="closeTrade()">✕ 平倉</button>
   <button class="btn" onclick="stepOne()" style="flex:0;padding:11px 10px;">+1K</button>
   <button class="btn btn-acc" onclick="addMark('B')" style="flex:0;padding:11px 10px;">📌</button>
 </div>
@@ -167,7 +189,7 @@ select.btn{padding:5px 6px;}
 <!-- SIDEBAR -->
 <aside class="sidebar">
 
-  <!-- Desktop trade -->
+  <!-- Desktop: trade buttons -->
   <div class="sblock desk-trade">
     <div class="sblock-title">進場 / 出場</div>
     <div style="display:flex;gap:6px;margin-bottom:7px;">
@@ -187,8 +209,8 @@ select.btn{padding:5px 6px;}
     </div>
   </div>
 
-  <!-- Mobile pos indicator -->
-  <div id="posCardM" style="display:none;padding:8px 10px;background:var(--bg3);border-bottom:1px solid var(--border);">
+  <!-- Mobile: position indicator (slim) -->
+  <div id="posCardM" style="display:none;padding:7px 10px;background:var(--bg3);border-bottom:1px solid var(--border);">
     <div style="display:flex;justify-content:space-between;align-items:center;">
       <span class="pos-dir" id="posDirM" style="font-family:var(--mono);font-size:11px;font-weight:600;">—</span>
       <span style="font-size:10px;color:var(--muted);font-family:var(--mono);" id="posEntryM">@—</span>
@@ -196,76 +218,109 @@ select.btn{padding:5px 6px;}
     </div>
   </div>
 
-  <!-- Pattern tags -->
-  <div class="sblock">
-    <div class="sblock-title">標記型態</div>
-    <div class="tags-wrap" style="margin-bottom:8px;">
-      <div class="tag" onclick="selTag(this,'破底翻')">破底翻</div>
-      <div class="tag" onclick="selTag(this,'假突破')">假突破</div>
-      <div class="tag" onclick="selTag(this,'多頭排列')">多頭排列</div>
-      <div class="tag" onclick="selTag(this,'空頭排列')">空頭排列</div>
-      <div class="tag" onclick="selTag(this,'箱型整理')">箱型整理</div>
-      <div class="tag" onclick="selTag(this,'趨勢反轉')">趨勢反轉</div>
-      <div class="tag" onclick="selTag(this,'紅K突破')">紅K突破</div>
-      <div class="tag" onclick="selTag(this,'吞噬')">吞噬</div>
+  <!-- COLLAPSIBLE PANEL (mobile tap to expand) -->
+  <div class="panel-header" onclick="togglePanel()">
+    <div class="panel-header-left">
+      <span>⚙</span>
+      <span>指標 / 標記 / 績效</span>
+      <span id="panelSummary" style="font-family:var(--mono);font-size:10px;color:var(--accent);"></span>
     </div>
-    <div style="display:flex;gap:5px;">
-      <button class="btn" style="flex:1;font-size:11px;" onclick="addMark('B')">📌 買點</button>
-      <button class="btn" style="flex:1;font-size:11px;" onclick="addMark('S')">📌 賣點</button>
-      <button class="btn" style="color:var(--muted);font-size:11px;" onclick="clearMarks()">清除</button>
-    </div>
+    <span class="panel-arrow" id="panelArrow">▼</span>
   </div>
+  <div class="panel-body" id="panelBody">
 
-  <!-- MA -->
-  <div class="sblock">
-    <div class="sblock-title">均線</div>
-    <div class="ma-row">
-      <div class="ma-btn" style="color:#f59e0b;border-color:#f59e0b;" data-p="5" onclick="toggleMA(this)">MA5</div>
-      <div class="ma-btn" style="color:#a78bfa;border-color:#a78bfa;" data-p="10" onclick="toggleMA(this)">MA10</div>
-      <div class="ma-btn off" style="color:#4f8ef7;border-color:#4f8ef7;" data-p="20" onclick="toggleMA(this)">MA20</div>
-      <div class="ma-btn off" style="color:#00d4a0;border-color:#00d4a0;" data-p="60" onclick="toggleMA(this)">MA60</div>
+    <!-- Indicators -->
+    <div class="sblock">
+      <div class="sblock-title">指標</div>
+      <div class="ind-row">
+        <div class="ind-btn" style="color:#f59e0b;border-color:#f59e0b;" data-type="ma" data-p="5" onclick="toggleInd(this)">MA5</div>
+        <div class="ind-btn" style="color:#a78bfa;border-color:#a78bfa;" data-type="ma" data-p="10" onclick="toggleInd(this)">MA10</div>
+        <div class="ind-btn off" style="color:#4f8ef7;border-color:#4f8ef7;" data-type="ma" data-p="20" onclick="toggleInd(this)">MA20</div>
+        <div class="ind-btn off" style="color:#00d4a0;border-color:#00d4a0;" data-type="ma" data-p="60" onclick="toggleInd(this)">MA60</div>
+        <div class="ind-btn off" style="color:#f472b6;border-color:#f472b6;" data-type="bb" onclick="toggleInd(this)">BBand</div>
+      </div>
+      <div id="bbSettings" style="display:none;margin-top:8px;font-size:11px;color:var(--muted);display:none;">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          <span>週期</span>
+          <input type="number" id="bbPeriod" value="20" min="5" max="50" style="width:46px;background:var(--bg3);border:1px solid var(--border2);border-radius:4px;color:var(--text);font-family:var(--mono);font-size:11px;padding:2px 5px;" onchange="draw()">
+          <span>倍數</span>
+          <input type="number" id="bbMult" value="2" min="1" max="4" step="0.5" style="width:40px;background:var(--bg3);border:1px solid var(--border2);border-radius:4px;color:var(--text);font-family:var(--mono);font-size:11px;padding:2px 5px;" onchange="draw()">
+        </div>
+      </div>
     </div>
-  </div>
 
-  <!-- Stats -->
-  <div class="sblock">
-    <div class="sblock-title">績效</div>
-    <div class="stats-grid">
-      <div class="stat-card"><div class="stat-label">累積損益</div><div class="stat-val" id="sTotalPnl" style="color:var(--up)">+0</div></div>
-      <div class="stat-card"><div class="stat-label">勝率</div><div class="stat-val" id="sWinRate">—</div></div>
-      <div class="stat-card"><div class="stat-label">次數</div><div class="stat-val" id="sCount">0</div></div>
-      <div class="stat-card"><div class="stat-label">最大獲利</div><div class="stat-val" id="sBest" style="color:var(--up)">—</div></div>
-      <div class="stat-card"><div class="stat-label">最大虧損</div><div class="stat-val" id="sWorst" style="color:var(--dn)">—</div></div>
-      <div class="stat-card"><div class="stat-label">平均K數</div><div class="stat-val" id="sAvgBar">—</div></div>
+    <!-- K count -->
+    <div class="sblock">
+      <div class="sblock-title">顯示K線數</div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <input type="range" id="visRange" min="20" max="150" value="60" style="flex:1;"
+          oninput="setVis(this.value)">
+        <span style="font-family:var(--mono);font-size:12px;min-width:32px;" id="visLabel">60</span>
+      </div>
+      <div style="font-size:10px;color:var(--dim);margin-top:4px;">電腦：滾輪縮放｜手機：雙指捏合</div>
     </div>
-  </div>
 
-  <!-- Log -->
-  <div class="sblock" style="flex:1;">
-    <div class="sblock-title">交易記錄</div>
-    <div class="log-list" id="logList">
-      <div class="log-empty">尚無交易記錄</div>
+    <!-- Pattern tags -->
+    <div class="sblock">
+      <div class="sblock-title">標記型態 <span style="font-size:9px;color:var(--dim);font-weight:400;">（先選型態，再按買/賣點）</span></div>
+      <div class="tags-wrap" style="margin-bottom:8px;">
+        <div class="tag" onclick="selTag(this,'破底翻')">破底翻</div>
+        <div class="tag" onclick="selTag(this,'假突破')">假突破</div>
+        <div class="tag" onclick="selTag(this,'多頭排列')">多頭排列</div>
+        <div class="tag" onclick="selTag(this,'空頭排列')">空頭排列</div>
+        <div class="tag" onclick="selTag(this,'箱型整理')">箱型整理</div>
+        <div class="tag" onclick="selTag(this,'趨勢反轉')">趨勢反轉</div>
+        <div class="tag" onclick="selTag(this,'紅K突破')">紅K突破</div>
+        <div class="tag" onclick="selTag(this,'吞噬')">吞噬</div>
+      </div>
+      <div style="display:flex;gap:5px;">
+        <button class="btn" style="flex:1;font-size:11px;" onclick="addMark('B')">📌 買點</button>
+        <button class="btn" style="flex:1;font-size:11px;" onclick="addMark('S')">📌 賣點</button>
+        <button class="btn" style="color:var(--muted);font-size:11px;" onclick="clearMarks()">清除</button>
+      </div>
     </div>
-  </div>
 
+    <!-- Stats -->
+    <div class="sblock">
+      <div class="sblock-title">績效</div>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-label">累積損益</div><div class="stat-val" id="sTotalPnl" style="color:var(--up)">+0</div></div>
+        <div class="stat-card"><div class="stat-label">勝率</div><div class="stat-val" id="sWinRate">—</div></div>
+        <div class="stat-card"><div class="stat-label">次數</div><div class="stat-val" id="sCount">0</div></div>
+        <div class="stat-card"><div class="stat-label">最大獲利</div><div class="stat-val" id="sBest" style="color:var(--up)">—</div></div>
+        <div class="stat-card"><div class="stat-label">最大虧損</div><div class="stat-val" id="sWorst" style="color:var(--dn)">—</div></div>
+        <div class="stat-card"><div class="stat-label">平均K數</div><div class="stat-val" id="sAvgBar">—</div></div>
+      </div>
+    </div>
+
+    <!-- Log -->
+    <div class="sblock">
+      <div class="sblock-title">交易記錄</div>
+      <div class="log-list" id="logList">
+        <div class="log-empty">尚無交易記錄</div>
+      </div>
+    </div>
+
+  </div><!-- /panel-body -->
 </aside>
 
 <!-- STATUSBAR -->
 <footer class="statusbar">
-  <span id="sbMsg">就緒 — 按 ▶ 播放開始</span>
+  <span id="sbMsg">就緒 — 按 ▶ 播放</span>
   <span style="margin-left:auto;color:var(--dim);flex-shrink:0;" class="hide-m">模擬練習，非真實交易</span>
 </footer>
-</div>
+</div><!-- /app -->
 
 <div id="notif"></div>
 
 <script>
-// ── State ──────────────────────────────────────────────────────────────
-let candles=[], vis=0, playing=false, timer=null;
+// ── State ──────────────────────────────────────────────────────────────────
+let candles=[], vis_count=60, vis=0, playing=false, timer=null;
 let pos=null, totalPnl=0, trades=[], markers=[];
 let selectedTag=null;
-let maOn={5:true,10:true,20:false,60:false};
+let indOn={ma5:true,ma10:true,ma20:false,ma60:false,bb:false};
 const maColors={5:'#f59e0b',10:'#a78bfa',20:'#4f8ef7',60:'#00d4a0'};
+let panelOpen=false;
 
 const wrap=document.getElementById('chartWrap');
 const canvas=document.getElementById('chartCanvas');
@@ -275,11 +330,67 @@ const mCtx=mCanvas.getContext('2d');
 
 function isMob(){return window.innerWidth<=640;}
 
-// ── Generate ────────────────────────────────────────────────────────────
+// ── Collapsible panel ──────────────────────────────────────────────────────
+function togglePanel(){
+  panelOpen=!panelOpen;
+  document.getElementById('panelBody').classList.toggle('open',panelOpen);
+  document.getElementById('panelArrow').classList.toggle('open',panelOpen);
+}
+
+// ── Zoom (vis_count) ───────────────────────────────────────────────────────
+function setVis(n){
+  vis_count=Math.max(20,Math.min(150,Math.round(n)));
+  document.getElementById('visRange').value=vis_count;
+  document.getElementById('visLabel').textContent=vis_count;
+  showZoomBadge();
+  draw();
+}
+
+let zoomT=null;
+function showZoomBadge(){
+  const b=document.getElementById('zoomBadge');
+  b.textContent=vis_count+' 根K';
+  b.classList.add('show');
+  clearTimeout(zoomT);
+  zoomT=setTimeout(()=>b.classList.remove('show'),1200);
+}
+
+// Mouse wheel zoom
+wrap.addEventListener('wheel',e=>{
+  e.preventDefault();
+  const delta=e.deltaY>0?5:-5;
+  setVis(vis_count+delta);
+},{passive:false});
+
+// Pinch zoom (touch)
+let lastPinchDist=null;
+wrap.addEventListener('touchstart',e=>{
+  if(e.touches.length===2){
+    lastPinchDist=Math.hypot(
+      e.touches[0].clientX-e.touches[1].clientX,
+      e.touches[0].clientY-e.touches[1].clientY
+    );
+  }
+},{passive:true});
+wrap.addEventListener('touchmove',e=>{
+  if(e.touches.length===2&&lastPinchDist!==null){
+    e.preventDefault();
+    const dist=Math.hypot(
+      e.touches[0].clientX-e.touches[1].clientX,
+      e.touches[0].clientY-e.touches[1].clientY
+    );
+    const ratio=lastPinchDist/dist;
+    setVis(Math.round(vis_count*ratio));
+    lastPinchDist=dist;
+  }
+},{passive:false});
+wrap.addEventListener('touchend',()=>{lastPinchDist=null;},{passive:true});
+
+// ── Data gen ───────────────────────────────────────────────────────────────
 function genSession(){
   let p=16000+Math.random()*5000;
   const regs=['trend_up','trend_dn','range','volatile'];
-  let reg='range', rem=0, out=[];
+  let reg='range',rem=0,out=[];
   for(let i=0;i<320;i++){
     if(rem<=0){reg=regs[Math.floor(Math.random()*4)];rem=18+Math.floor(Math.random()*45);}
     rem--;
@@ -297,7 +408,18 @@ function genSession(){
   return out;
 }
 
-// ── Resize ──────────────────────────────────────────────────────────────
+// ── Bollinger Bands ────────────────────────────────────────────────────────
+function calcBB(data,period,mult){
+  return data.map((_,i)=>{
+    if(i<period-1)return null;
+    const slice=data.slice(i-period+1,i+1).map(d=>d.c);
+    const mean=slice.reduce((a,b)=>a+b,0)/period;
+    const std=Math.sqrt(slice.reduce((a,b)=>a+(b-mean)**2,0)/period);
+    return{mid:mean,upper:mean+mult*std,lower:mean-mult*std};
+  });
+}
+
+// ── Resize ─────────────────────────────────────────────────────────────────
 function resize(){
   const W=wrap.clientWidth,H=wrap.clientHeight;
   canvas.width=mCanvas.width=W;
@@ -305,33 +427,45 @@ function resize(){
   draw();
 }
 
-// ── Scale ────────────────────────────────────────────────────────────────
-function VIS(){return isMob()?44:68;}
+// ── Scale ──────────────────────────────────────────────────────────────────
 function getSlice(){
-  const v=VIS(),start=Math.max(0,vis-v);
-  return{slice:candles.slice(start,vis),start,v};
+  const start=Math.max(0,vis-vis_count);
+  return{slice:candles.slice(start,vis),start};
 }
-function getScale(slice,v){
+function getScale(slice){
   const mob=isMob();
   const pad={top:mob?28:32,right:mob?50:54,bottom:mob?24:28,left:6};
   const W=canvas.width,H=canvas.height;
   const cW=W-pad.left-pad.right,cH=H-pad.top-pad.bottom;
-  const maxP=Math.max(...slice.map(c=>c.h)),minP=Math.min(...slice.map(c=>c.l));
+
+  // include BB in price range if on
+  let allH=slice.map(c=>c.h),allL=slice.map(c=>c.l);
+  if(indOn.bb&&candles.length){
+    const period=parseInt(document.getElementById('bbPeriod').value)||20;
+    const mult=parseFloat(document.getElementById('bbMult').value)||2;
+    const bb=calcBB(candles,period,mult);
+    const{start}=getSlice();
+    slice.forEach((_,i)=>{
+      const b=bb[start+i];
+      if(b){allH.push(b.upper);allL.push(b.lower);}
+    });
+  }
+  const maxP=Math.max(...allH),minP=Math.min(...allL);
   const rng=maxP-minP||200,ext=rng*.1;
   const yMax=maxP+ext,yMin=minP-ext;
   const toY=p=>pad.top+((yMax-p)/(yMax-yMin))*cH;
-  const xStep=cW/v;
-  const toX=i=>pad.left+(v-slice.length+i)*xStep+xStep/2;
-  const cw=Math.max(2,Math.min(mob?9:13,xStep*.72));
+  const xStep=cW/vis_count;
+  const toX=i=>pad.left+(vis_count-slice.length+i)*xStep+xStep/2;
+  const cw=Math.max(1,Math.min(mob?9:13,xStep*.72));
   return{W,H,cW,cH,yMax,yMin,toY,xStep,toX,cw,pad};
 }
 
-// ── Draw ─────────────────────────────────────────────────────────────────
+// ── Draw ───────────────────────────────────────────────────────────────────
 function draw(){
   if(!candles.length||!vis)return;
-  const{slice,start,v}=getSlice();
+  const{slice,start}=getSlice();
   if(!slice.length)return;
-  const sc=getScale(slice,v);
+  const sc=getScale(slice);
   const{W,H,cH,yMax,yMin,toY,xStep,toX,cw,pad}=sc;
   ctx.clearRect(0,0,W,H);
 
@@ -345,15 +479,56 @@ function draw(){
     ctx.textAlign='right';ctx.fillText(pr.toFixed(0),W-4,y+3.5);
   }
 
-  // MA
-  Object.entries(maOn).forEach(([p,on])=>{
-    if(!on)return;
-    const period=parseInt(p);
-    ctx.strokeStyle=maColors[period];ctx.lineWidth=1.2;ctx.globalAlpha=.72;
+  // Bollinger Bands
+  if(indOn.bb){
+    const period=parseInt(document.getElementById('bbPeriod').value)||20;
+    const mult=parseFloat(document.getElementById('bbMult').value)||2;
+    const bb=calcBB(candles,period,mult);
+
+    // fill band
+    ctx.beginPath();
+    let firstValid=true;
+    slice.forEach((_,i)=>{
+      const b=bb[start+i];if(!b)return;
+      if(firstValid){ctx.moveTo(toX(i),toY(b.upper));firstValid=false;}
+      else ctx.lineTo(toX(i),toY(b.upper));
+    });
+    const sliceRev=[...slice].map((_,i)=>slice.length-1-i);
+    sliceRev.forEach(i=>{
+      const b=bb[start+i];if(!b)return;
+      ctx.lineTo(toX(i),toY(b.lower));
+    });
+    ctx.closePath();
+    ctx.fillStyle='rgba(244,114,182,0.05)';ctx.fill();
+
+    // upper line
+    ctx.strokeStyle='rgba(244,114,182,0.5)';ctx.lineWidth=1;ctx.setLineDash([3,3]);
+    ctx.beginPath();let s1=true;
+    slice.forEach((_,i)=>{const b=bb[start+i];if(!b)return;if(s1){ctx.moveTo(toX(i),toY(b.upper));s1=false;}else ctx.lineTo(toX(i),toY(b.upper));});
+    ctx.stroke();
+
+    // mid line (SMA)
+    ctx.strokeStyle='rgba(244,114,182,0.7)';ctx.lineWidth=1;ctx.setLineDash([5,3]);
+    ctx.beginPath();let s2=true;
+    slice.forEach((_,i)=>{const b=bb[start+i];if(!b)return;if(s2){ctx.moveTo(toX(i),toY(b.mid));s2=false;}else ctx.lineTo(toX(i),toY(b.mid));});
+    ctx.stroke();
+
+    // lower line
+    ctx.strokeStyle='rgba(244,114,182,0.5)';ctx.lineWidth=1;ctx.setLineDash([3,3]);
+    ctx.beginPath();let s3=true;
+    slice.forEach((_,i)=>{const b=bb[start+i];if(!b)return;if(s3){ctx.moveTo(toX(i),toY(b.lower));s3=false;}else ctx.lineTo(toX(i),toY(b.lower));});
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  // MA lines
+  [{key:'ma5',p:5},{key:'ma10',p:10},{key:'ma20',p:20},{key:'ma60',p:60}].forEach(({key,p})=>{
+    if(!indOn[key])return;
+    ctx.strokeStyle=maColors[p];ctx.lineWidth=1.2;ctx.globalAlpha=.75;
     ctx.beginPath();let started=false;
-    slice.forEach((c,i)=>{
-      const ai=start+i;if(ai<period-1)return;
-      const ma=candles.slice(ai-period+1,ai+1).reduce((a,b)=>a+b.c,0)/period;
+    slice.forEach((_,i)=>{
+      const ai=start+i;if(ai<p-1)return;
+      const ma=candles.slice(ai-p+1,ai+1).reduce((a,b)=>a+b.c,0)/p;
       const x=toX(i),y=toY(ma);
       if(!started){ctx.moveTo(x,y);started=true;}else ctx.lineTo(x,y);
     });
@@ -389,10 +564,10 @@ function draw(){
   ctx.fillStyle='#0d0f14';ctx.font='bold 9px IBM Plex Mono,monospace';
   ctx.textAlign='left';ctx.fillText(last.c.toFixed(0),W-pad.right+5,lastY+3);
 
-  drawMarkers(slice,start,sc,v);
+  drawMarkers(slice,start,sc);
 }
 
-function drawMarkers(slice,start,sc,v){
+function drawMarkers(slice,start,sc){
   const{toX,toY}=sc;
   mCtx.clearRect(0,0,mCanvas.width,mCanvas.height);
   markers.forEach(m=>{
@@ -402,18 +577,20 @@ function drawMarkers(slice,start,sc,v){
     if(m.type==='B'){
       const y=toY(c.l)+4;
       mCtx.fillStyle='#a78bfa';
-      mCtx.beginPath();mCtx.moveTo(x,y);mCtx.lineTo(x-5,y+12);mCtx.lineTo(x+5,y+12);mCtx.closePath();mCtx.fill();
-      mCtx.font='9px DM Sans,sans-serif';mCtx.textAlign='center';mCtx.fillText(m.label||'B',x,y+22);
+      mCtx.beginPath();mCtx.moveTo(x,y);mCtx.lineTo(x-5,y+11);mCtx.lineTo(x+5,y+11);mCtx.closePath();mCtx.fill();
+      mCtx.fillStyle='#a78bfa';mCtx.font='9px DM Sans,sans-serif';mCtx.textAlign='center';
+      mCtx.fillText(m.label||'B',x,y+21);
     }else{
       const y=toY(c.h)-4;
       mCtx.fillStyle='#f59e0b';
-      mCtx.beginPath();mCtx.moveTo(x,y);mCtx.lineTo(x-5,y-12);mCtx.lineTo(x+5,y-12);mCtx.closePath();mCtx.fill();
-      mCtx.font='9px DM Sans,sans-serif';mCtx.textAlign='center';mCtx.fillText(m.label||'S',x,y-16);
+      mCtx.beginPath();mCtx.moveTo(x,y);mCtx.lineTo(x-5,y-11);mCtx.lineTo(x+5,y-11);mCtx.closePath();mCtx.fill();
+      mCtx.fillStyle='#f59e0b';mCtx.font='9px DM Sans,sans-serif';mCtx.textAlign='center';
+      mCtx.fillText(m.label||'S',x,y-15);
     }
   });
 }
 
-// ── Header ────────────────────────────────────────────────────────────────
+// ── Header update ──────────────────────────────────────────────────────────
 function updateHeader(){
   if(!vis)return;
   const c=candles[vis-1],prev=vis>1?candles[vis-2]:c;
@@ -439,7 +616,7 @@ function updateHeader(){
   }
 }
 
-// ── Play ──────────────────────────────────────────────────────────────────
+// ── Play ───────────────────────────────────────────────────────────────────
 function togglePlay(){
   if(vis>=candles.length){notify('行情走完，按 ↺ 開新行情','info');return;}
   playing=!playing;
@@ -454,7 +631,7 @@ function togglePlay(){
 }
 function stepOne(){if(vis<candles.length){vis++;draw();updateHeader();}}
 
-// ── Session ───────────────────────────────────────────────────────────────
+// ── Session ────────────────────────────────────────────────────────────────
 function newSession(){
   clearInterval(timer);playing=false;
   candles=genSession();vis=22;markers=[];
@@ -466,7 +643,7 @@ function newSession(){
   sbMsg('新行情！找到進場點後按 ▲做多 / ▼做空');
 }
 
-// ── Trade ─────────────────────────────────────────────────────────────────
+// ── Trade ──────────────────────────────────────────────────────────────────
 function openTrade(dir){
   if(pos){notify('請先平倉','info');return;}
   if(!vis)return;
@@ -520,15 +697,18 @@ function updateStats(){
     document.getElementById('sWorst').textContent=Math.min(...pnls).toFixed(1);
     document.getElementById('sAvgBar').textContent=Math.round(trades.reduce((a,t)=>a+t.bars,0)/trades.length)+'K';
   }
+  // update panel summary badge
+  document.getElementById('panelSummary').textContent=
+    trades.length?`${trades.length}筆 | PnL ${(totalPnl>=0?'+':'')+totalPnl.toFixed(0)}`:'';
 }
 
-// ── Markers ───────────────────────────────────────────────────────────────
+// ── Markers ────────────────────────────────────────────────────────────────
 function addMark(type){
   if(!vis)return;
   const label=selectedTag?type+':'+selectedTag:type;
   markers.push({idx:vis-1,type,label});
-  const{slice,start,v}=getSlice();
-  drawMarkers(slice,start,getScale(slice,v),v);
+  const{slice,start}=getSlice();
+  drawMarkers(slice,start,getScale(slice));
   sbMsg('📌 「'+label+'」@ K'+vis);
 }
 function clearMarks(){markers=[];mCtx.clearRect(0,0,mCanvas.width,mCanvas.height);sbMsg('已清除標記');}
@@ -536,29 +716,41 @@ function selTag(el,tag){
   if(selectedTag===tag){selectedTag=null;document.querySelectorAll('.tag').forEach(t=>t.classList.remove('active'));}
   else{selectedTag=tag;document.querySelectorAll('.tag').forEach(t=>t.classList.remove('active'));el.classList.add('active');}
 }
-function toggleMA(el){
-  const p=parseInt(el.dataset.p);maOn[p]=!maOn[p];
-  el.classList.toggle('off',!maOn[p]);draw();
+
+// ── Indicators toggle ──────────────────────────────────────────────────────
+function toggleInd(el){
+  const type=el.dataset.type;
+  if(type==='ma'){
+    const p=el.dataset.p;
+    const key='ma'+p;
+    indOn[key]=!indOn[key];
+    el.classList.toggle('off',!indOn[key]);
+  }else if(type==='bb'){
+    indOn.bb=!indOn.bb;
+    el.classList.toggle('off',!indOn.bb);
+    const s=document.getElementById('bbSettings');
+    s.style.display=indOn.bb?'block':'none';
+  }
+  draw();
 }
 
-// ── Touch tap → tooltip ───────────────────────────────────────────────────
+// ── Touch tap tooltip ──────────────────────────────────────────────────────
 canvas.addEventListener('click',e=>{
   if(!candles.length||!vis)return;
   const rect=canvas.getBoundingClientRect();
   const mx=(e.clientX-rect.left)*(canvas.width/rect.width);
   const my=(e.clientY-rect.top)*(canvas.height/rect.height);
-  const{slice,start,v}=getSlice();
-  const sc=getScale(slice,v);
+  const{slice,start}=getSlice();
+  const sc=getScale(slice);
   const{toX,xStep,W}=sc;
   let nearest=null,minD=9999;
-  slice.forEach((c,i)=>{const d=Math.abs(toX(i)-mx);if(d<minD){minD=d;nearest=i;}});
+  slice.forEach((_,i)=>{const d=Math.abs(toX(i)-mx);if(d<minD){minD=d;nearest=i;}});
   if(minD<xStep*1.3&&nearest!==null){
     const c=slice[nearest],isUp=c.c>=c.o;
     const tip=document.getElementById('tip');
     tip.innerHTML=`<span style="color:${isUp?'#00d4a0':'#ff4d6d'};font-weight:600;">${isUp?'▲':'▼'} K${start+nearest+1}</span><br>O <b>${c.o.toFixed(1)}</b>&nbsp;H <b style="color:#00d4a0">${c.h.toFixed(1)}</b><br>L <b style="color:#ff4d6d">${c.l.toFixed(1)}</b>&nbsp;C <b>${c.c.toFixed(1)}</b><br>振幅 <b>${(c.h-c.l).toFixed(1)}</b>`;
-    const x=toX(nearest);
-    let tx=x+12,ty=my-70;
-    if(tx+130>W)tx=x-145;if(ty<0)ty=6;
+    let tx=toX(nearest)+12,ty=my-70;
+    if(tx+130>W)tx=toX(nearest)-145;if(ty<0)ty=6;
     tip.style.left=tx+'px';tip.style.top=ty+'px';tip.style.display='block';
     clearTimeout(tip._t);tip._t=setTimeout(()=>tip.style.display='none',2800);
   }
@@ -569,11 +761,11 @@ canvas.addEventListener('mousemove',e=>{
   if(isMob()||!candles.length||!vis)return;
   const rect=canvas.getBoundingClientRect();
   const mx=e.clientX-rect.left,my=e.clientY-rect.top;
-  const{slice,start,v}=getSlice();
-  const sc=getScale(slice,v);
+  const{slice,start}=getSlice();
+  const sc=getScale(slice);
   const{toX,xStep,W,H,yMax,yMin,cH,pad}=sc;
   let nearest=null,minD=9999;
-  slice.forEach((c,i)=>{const d=Math.abs(toX(i)-mx);if(d<minD){minD=d;nearest=i;}});
+  slice.forEach((_,i)=>{const d=Math.abs(toX(i)-mx);if(d<minD){minD=d;nearest=i;}});
   if(minD<xStep&&nearest!==null){
     const c=slice[nearest],x=toX(nearest),isUp=c.c>=c.o;
     const tip=document.getElementById('tip');
@@ -595,11 +787,13 @@ canvas.addEventListener('mousemove',e=>{
 });
 canvas.addEventListener('mouseleave',()=>{document.getElementById('tip').style.display='none';draw();});
 
-// ── Keyboard ──────────────────────────────────────────────────────────────
+// ── Keyboard ───────────────────────────────────────────────────────────────
 document.addEventListener('keydown',e=>{
   if(e.target.tagName==='SELECT'||e.target.tagName==='INPUT')return;
   if(e.code==='Space'){e.preventDefault();togglePlay();}
   if(e.code==='ArrowRight')stepOne();
+  if(e.code==='Equal'||e.code==='NumpadAdd'){e.preventDefault();setVis(vis_count-10);}
+  if(e.code==='Minus'||e.code==='NumpadSubtract'){e.preventDefault();setVis(vis_count+10);}
   if(e.key==='l'||e.key==='L')openTrade('long');
   if(e.key==='s'||e.key==='S')openTrade('short');
   if(e.key==='x'||e.key==='X')closeTrade();
@@ -607,7 +801,7 @@ document.addEventListener('keydown',e=>{
   if(e.key==='n'||e.key==='N')newSession();
 });
 
-// ── Notify / status ───────────────────────────────────────────────────────
+// ── Notify / status ────────────────────────────────────────────────────────
 function notify(msg,type='info'){
   const el=document.getElementById('notif');
   el.textContent=msg;el.className=type+' show';
@@ -615,14 +809,13 @@ function notify(msg,type='info'){
 }
 function sbMsg(msg){document.getElementById('sbMsg').textContent=msg;}
 
-// ── Init ──────────────────────────────────────────────────────────────────
+// ── Init ───────────────────────────────────────────────────────────────────
 window.addEventListener('resize',resize);
 resize();
 newSession();
 setTimeout(()=>{
-  if(!playing&&!pos){
-    sbMsg(isMob()?'點K線可查看OHLC | ▶ 開始播放':'空白鍵=播放  →=+1K  L=做多  S=做空  X=平倉  B=標記  N=新行情');
-  }
+  if(!playing&&!pos)
+    sbMsg(isMob()?'雙指縮放K線數 | 點K棒查看資訊':'滾輪縮放 | 空白=播放 →=+1K  =/- 調整K數  L/S=多空  X=平倉');
 },3000);
 </script>
 </body>
