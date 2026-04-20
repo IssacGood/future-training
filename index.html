@@ -19,25 +19,22 @@
 html{height:100%;-webkit-tap-highlight-color:transparent;}
 body{height:100%;background:var(--bg);color:var(--text);font-family:var(--sans);overflow:hidden;}
 
-/* Desktop grid */
-.app{display:grid;grid-template-rows:52px 1fr 40px;grid-template-columns:1fr 264px;height:100dvh;}
+.app{display:grid;grid-template-rows:52px 1fr 40px;grid-template-columns:1fr 268px;height:100dvh;}
 .header{grid-column:1/-1;display:flex;align-items:center;gap:12px;padding:0 14px;border-bottom:1px solid var(--border);background:var(--bg2);z-index:10;min-width:0;}
 .chart-wrap{grid-row:2;grid-column:1;position:relative;overflow:hidden;background:var(--bg);min-width:0;}
 .sidebar{grid-row:2;grid-column:2;display:flex;flex-direction:column;background:var(--bg2);border-left:1px solid var(--border);overflow-y:auto;}
 .statusbar{grid-column:1/-1;display:flex;align-items:center;gap:12px;padding:0 14px;border-top:1px solid var(--border);background:var(--bg2);font-family:var(--mono);font-size:10px;color:var(--muted);overflow:hidden;}
 
-/* Mobile */
 @media(max-width:640px){
   .app{grid-template-rows:auto 1fr auto auto;grid-template-columns:1fr;height:100dvh;}
   .header{grid-column:1;flex-wrap:wrap;row-gap:4px;padding:8px 10px;height:auto;}
   .chart-wrap{grid-row:2;grid-column:1;}
   .sidebar{grid-row:3;grid-column:1;border-left:none;border-top:1px solid var(--border);overflow:hidden;}
-  .statusbar{grid-row:4;grid-column:1;height:30px;font-size:10px;padding:0 10px;}
+  .statusbar{grid-row:4;grid-column:1;height:30px;padding:0 10px;}
   .hide-m{display:none!important;}
   .sblock{padding:9px 10px 8px;}
 }
 
-/* Header */
 .logo{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.08em;display:flex;align-items:center;gap:7px;white-space:nowrap;}
 .logo-dot{width:7px;height:7px;border-radius:50%;background:var(--up);box-shadow:0 0 7px var(--up);animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
@@ -45,11 +42,11 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--sans);
 .chip{font-family:var(--mono);font-size:10px;padding:2px 7px;border-radius:4px;white-space:nowrap;}
 .chip.up{background:var(--up2);color:var(--up);}
 .chip.dn{background:var(--dn2);color:var(--dn);}
-.ohlc{display:flex;gap:10px;font-family:var(--mono);font-size:10px;color:var(--muted);flex-wrap:wrap;}
+.ohlc{display:flex;gap:10px;font-family:var(--mono);font-size:10px;color:var(--muted);}
 .ohlc b{color:var(--text);font-weight:500;}
 .hdr-right{margin-left:auto;display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.time-badge{font-family:var(--mono);font-size:10px;color:var(--accent);background:rgba(79,142,247,.1);border:1px solid rgba(79,142,247,.2);border-radius:4px;padding:2px 8px;white-space:nowrap;}
 
-/* Buttons */
 .btn{cursor:pointer;border:1px solid var(--border2);border-radius:6px;padding:5px 11px;font-size:12px;font-family:var(--sans);background:transparent;color:var(--text);transition:all .14s;white-space:nowrap;}
 .btn:active{transform:scale(.96);}
 .btn-up{border-color:var(--up);color:var(--up);}
@@ -61,38 +58,32 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--sans);
 .btn-acc{border-color:var(--accent);color:var(--accent);}
 select.btn{padding:5px 6px;}
 
-/* Canvas */
 #chartCanvas,#markCanvas{display:block;position:absolute;top:0;left:0;}
 #markCanvas{pointer-events:none;}
 
-/* Tooltip */
-#tip{position:absolute;background:#1e2330;border:1px solid var(--border2);border-radius:6px;padding:7px 11px;font-family:var(--mono);font-size:10px;pointer-events:none;display:none;z-index:20;line-height:1.8;min-width:110px;}
+#tip{position:absolute;background:#1e2330;border:1px solid var(--border2);border-radius:6px;padding:7px 11px;font-family:var(--mono);font-size:10px;pointer-events:none;display:none;z-index:20;line-height:1.8;min-width:120px;}
 
-/* Sidebar */
 .sblock{padding:12px 14px 10px;border-bottom:1px solid var(--border);}
 .sblock-title{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:9px;font-weight:500;}
 
-/* Lot selector */
-.lot-row{display:flex;align-items:center;gap:6px;margin-bottom:10px;}
+/* Lot selector — symmetric 5+5 dots */
+.lot-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
 .lot-label{font-size:11px;color:var(--muted);white-space:nowrap;}
-.lot-btn{width:28px;height:28px;border-radius:5px;border:1px solid var(--border2);background:transparent;color:var(--text);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .14s;font-family:var(--mono);}
+.lot-btn{width:28px;height:28px;border-radius:5px;border:1px solid var(--border2);background:transparent;color:var(--text);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .14s;}
 .lot-btn:active{transform:scale(.93);}
-.lot-display{font-family:var(--mono);font-size:18px;font-weight:600;min-width:28px;text-align:center;color:var(--text);}
-.lot-dots{display:flex;gap:3px;flex-wrap:wrap;max-width:120px;}
-.lot-dot{width:9px;height:9px;border-radius:50%;background:var(--dim);transition:all .2s;}
+.lot-display{font-family:var(--mono);font-size:18px;font-weight:600;min-width:26px;text-align:center;}
+.lot-grid{display:grid;grid-template-columns:repeat(5,10px);grid-template-rows:repeat(2,10px);gap:3px;}
+.lot-dot{width:10px;height:10px;border-radius:50%;background:var(--dim);transition:background .2s;}
 .lot-dot.long{background:var(--up);}
 .lot-dot.short{background:var(--dn);}
+.lot-dot.preview{background:rgba(79,142,247,0.5);}
 
 /* Position card */
 .pos-card{background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:10px 12px;}
-.pos-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;}
 .pos-dir.long{color:var(--up);}
 .pos-dir.short{color:var(--dn);}
-
-/* Avg price entries list */
-.entries-list{margin-top:6px;display:flex;flex-direction:column;gap:2px;max-height:80px;overflow-y:auto;}
+.entries-list{margin-top:6px;display:flex;flex-direction:column;gap:2px;max-height:90px;overflow-y:auto;}
 .entry-row{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--muted);padding:1px 0;}
-.entry-row span:last-child{color:var(--text);}
 
 /* Stats */
 .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
@@ -101,7 +92,7 @@ select.btn{padding:5px 6px;}
 .stat-val{font-family:var(--mono);font-size:13px;font-weight:500;}
 
 /* Log */
-.log-list{display:flex;flex-direction:column;gap:3px;max-height:120px;overflow-y:auto;}
+.log-list{display:flex;flex-direction:column;gap:3px;max-height:110px;overflow-y:auto;}
 .log-item{font-family:var(--mono);font-size:10px;padding:4px 8px;border-radius:4px;}
 .log-item.win{background:var(--up2);color:var(--up);}
 .log-item.loss{background:var(--dn2);color:var(--dn);}
@@ -112,12 +103,17 @@ select.btn{padding:5px 6px;}
 .tag{font-size:11px;padding:3px 9px;border-radius:3px;cursor:pointer;border:1px solid var(--border2);color:var(--muted);transition:all .14s;}
 .tag.active{background:rgba(167,139,250,.15);border-color:var(--purple);color:var(--purple);}
 
-/* Indicator toggles */
+/* Indicators */
 .ind-row{display:flex;gap:5px;flex-wrap:wrap;}
 .ind-btn{font-size:11px;font-family:var(--mono);padding:3px 9px;border-radius:3px;cursor:pointer;border:1px solid;transition:all .14s;}
 .ind-btn.off{opacity:.3;}
 
-/* Collapsible (mobile) */
+/* Shortcuts table */
+.kb-table{width:100%;font-family:var(--mono);font-size:10px;border-collapse:collapse;}
+.kb-table tr td{padding:3px 0;color:var(--muted);}
+.kb-table tr td:first-child{color:var(--accent);padding-right:10px;white-space:nowrap;}
+
+/* Collapsible */
 .panel-header{display:none;align-items:center;justify-content:space-between;padding:10px 12px;cursor:pointer;user-select:none;background:var(--bg2);border-bottom:1px solid var(--border);}
 .panel-arrow{font-size:11px;color:var(--muted);transition:transform .2s;}
 .panel-arrow.open{transform:rotate(180deg);}
@@ -125,24 +121,26 @@ select.btn{padding:5px 6px;}
 @media(max-width:640px){
   .panel-header{display:flex;}
   .panel-body{max-height:0;}
-  .panel-body.open{max-height:700px;}
+  .panel-body.open{max-height:800px;}
 }
 
-/* Mobile bottom bar */
+/* Mobile trade bar */
 .trade-bar{display:none;}
 @media(max-width:640px){
   .trade-bar{display:flex;gap:5px;padding:7px 8px;background:var(--bg2);border-top:1px solid var(--border);align-items:center;}
   .trade-bar .main-btn{flex:1;padding:10px 4px;font-size:13px;text-align:center;}
   .desk-trade{display:none!important;}
 }
-
-/* Lot counter mobile */
 .lot-mini{display:flex;align-items:center;gap:4px;background:var(--bg3);border:1px solid var(--border2);border-radius:6px;padding:4px 8px;}
 .lot-mini span{font-family:var(--mono);font-size:13px;font-weight:600;}
 
 /* Zoom badge */
 #zoomBadge{position:absolute;top:8px;left:8px;background:rgba(79,142,247,.18);border:1px solid rgba(79,142,247,.3);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--accent);padding:3px 8px;pointer-events:none;opacity:0;transition:opacity .3s;}
 #zoomBadge.show{opacity:1;}
+
+/* Pan indicator */
+#panBadge{position:absolute;top:8px;left:50%;transform:translateX(-50%);background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--gold);padding:3px 10px;pointer-events:none;opacity:0;transition:opacity .3s;white-space:nowrap;}
+#panBadge.show{opacity:1;}
 
 /* Notification */
 #notif{position:fixed;top:10px;left:50%;transform:translateX(-50%) translateY(-10px);z-index:100;font-family:var(--mono);font-size:12px;padding:9px 18px;border-radius:7px;border:1px solid;opacity:0;transition:all .22s;pointer-events:none;white-space:nowrap;max-width:92vw;text-align:center;}
@@ -172,6 +170,7 @@ select.btn{padding:5px 6px;}
     <span style="color:var(--dim)">|</span>
     <span>K <b id="hBar">0</b></span>
   </div>
+  <div class="time-badge hide-m" id="timeBadge">0分鐘</div>
   <div class="hdr-right">
     <select class="btn" id="speedSel">
       <option value="900">慢</option>
@@ -191,11 +190,11 @@ select.btn{padding:5px 6px;}
   <canvas id="markCanvas"></canvas>
   <div id="tip"></div>
   <div id="zoomBadge"></div>
+  <div id="panBadge">← 覆盤模式 →</div>
 </div>
 
-<!-- MOBILE BOTTOM BAR -->
-<div class="trade-bar" id="tradeBar">
-  <!-- lot picker mini -->
+<!-- MOBILE TRADE BAR -->
+<div class="trade-bar">
   <div class="lot-mini">
     <button class="lot-btn" onclick="changeLot(-1)" style="width:22px;height:22px;font-size:12px;">−</button>
     <span id="lotDispM">1</span>
@@ -210,42 +209,36 @@ select.btn{padding:5px 6px;}
 <!-- SIDEBAR -->
 <aside class="sidebar">
 
-  <!-- Desktop: lot + trade -->
+  <!-- Desktop trade + lot -->
   <div class="sblock desk-trade">
     <div class="sblock-title">口數 / 進出場</div>
-
-    <!-- Lot selector -->
     <div class="lot-row">
       <span class="lot-label">口數</span>
       <button class="lot-btn" onclick="changeLot(-1)">−</button>
       <span class="lot-display" id="lotDisp">1</span>
       <button class="lot-btn" onclick="changeLot(1)">+</button>
-      <div class="lot-dots" id="lotDots"></div>
+      <div class="lot-grid" id="lotGrid"></div>
     </div>
-
     <div style="display:flex;gap:6px;margin-bottom:7px;">
       <button class="btn btn-up" style="flex:1;padding:9px;font-size:13px;" onclick="openTrade('long')">▲ 做多</button>
       <button class="btn btn-dn" style="flex:1;padding:9px;font-size:13px;" onclick="openTrade('short')">▼ 做空</button>
     </div>
     <button class="btn btn-gold" id="closeBtn" style="width:100%;display:none;margin-bottom:8px;" onclick="closeTrade()">✕ 全部平倉</button>
-
-    <!-- Position display -->
     <div id="posCard" style="display:none;">
       <div class="pos-card">
-        <div class="pos-row">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;">
           <span class="pos-dir" id="posDir" style="font-family:var(--mono);font-size:12px;font-weight:600;">—</span>
           <span style="font-family:var(--mono);font-size:11px;color:var(--muted);" id="posLots">0口</span>
           <span style="font-family:var(--mono);font-size:11px;color:var(--muted);" id="posAvg">均@—</span>
         </div>
-        <div style="font-family:var(--mono);font-size:20px;font-weight:600;margin:4px 0;" id="posPnl">+0</div>
-        <div style="font-family:var(--mono);font-size:10px;color:var(--muted);" id="posDetail">持倉K: 0</div>
-        <!-- individual entries -->
+        <div style="font-family:var(--mono);font-size:20px;font-weight:600;margin:2px 0;" id="posPnl">+0</div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--muted);" id="posDetail">—</div>
         <div class="entries-list" id="entriesList"></div>
       </div>
     </div>
   </div>
 
-  <!-- Mobile: pos indicator slim -->
+  <!-- Mobile pos indicator -->
   <div id="posCardM" style="display:none;padding:7px 10px;background:var(--bg3);border-bottom:1px solid var(--border);">
     <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
       <span class="pos-dir" id="posDirM" style="font-family:var(--mono);font-size:11px;font-weight:600;">—</span>
@@ -285,19 +278,19 @@ select.btn{padding:5px 6px;}
       </div>
     </div>
 
-    <!-- K count -->
+    <!-- K count slider -->
     <div class="sblock">
       <div class="sblock-title">顯示K線數</div>
       <div style="display:flex;align-items:center;gap:8px;">
         <input type="range" id="visRange" min="20" max="150" value="60" style="flex:1;" oninput="setVis(this.value)">
         <span style="font-family:var(--mono);font-size:12px;min-width:32px;" id="visLabel">60</span>
       </div>
-      <div style="font-size:10px;color:var(--dim);margin-top:4px;">電腦：滾輪縮放 ｜ 手機：雙指捏合</div>
+      <div style="font-size:10px;color:var(--dim);margin-top:3px;">電腦：滾輪縮放 ｜ 手機：雙指捏合</div>
     </div>
 
-    <!-- Pattern tags -->
+    <!-- Tags -->
     <div class="sblock">
-      <div class="sblock-title">標記型態</div>
+      <div class="sblock-title">手動標記型態</div>
       <div class="tags-wrap" style="margin-bottom:8px;">
         <div class="tag" onclick="selTag(this,'破底翻')">破底翻</div>
         <div class="tag" onclick="selTag(this,'假突破')">假突破</div>
@@ -311,7 +304,7 @@ select.btn{padding:5px 6px;}
       <div style="display:flex;gap:5px;">
         <button class="btn" style="flex:1;font-size:11px;" onclick="addMark('B')">📌 買點</button>
         <button class="btn" style="flex:1;font-size:11px;" onclick="addMark('S')">📌 賣點</button>
-        <button class="btn" style="color:var(--muted);font-size:11px;" onclick="clearMarks()">清除</button>
+        <button class="btn" style="color:var(--muted);font-size:11px;" onclick="clearManualMarks()">清除手動</button>
       </div>
     </div>
 
@@ -324,7 +317,7 @@ select.btn{padding:5px 6px;}
         <div class="stat-card"><div class="stat-label">次數</div><div class="stat-val" id="sCount">0</div></div>
         <div class="stat-card"><div class="stat-label">最大獲利</div><div class="stat-val" id="sBest" style="color:var(--up)">—</div></div>
         <div class="stat-card"><div class="stat-label">最大虧損</div><div class="stat-val" id="sWorst" style="color:var(--dn)">—</div></div>
-        <div class="stat-card"><div class="stat-label">平均K數</div><div class="stat-val" id="sAvgBar">—</div></div>
+        <div class="stat-card"><div class="stat-label">平均持倉</div><div class="stat-val" id="sAvgTime">—</div></div>
       </div>
     </div>
 
@@ -336,11 +329,28 @@ select.btn{padding:5px 6px;}
       </div>
     </div>
 
+    <!-- Shortcuts -->
+    <div class="sblock hide-m">
+      <div class="sblock-title">鍵盤快捷鍵</div>
+      <table class="kb-table">
+        <tr><td>空白鍵</td><td>播放 / 暫停</td></tr>
+        <tr><td>→</td><td>前進一根K</td></tr>
+        <tr><td>↑ / ↓</td><td>調整口數</td></tr>
+        <tr><td>L</td><td>做多</td></tr>
+        <tr><td>S</td><td>做空</td></tr>
+        <tr><td>X</td><td>全部平倉</td></tr>
+        <tr><td>B</td><td>標記買點</td></tr>
+        <tr><td>N</td><td>新行情</td></tr>
+        <tr><td>= / −</td><td>放大 / 縮小K線</td></tr>
+        <tr><td>左鍵拖曳</td><td>平移覆盤</td></tr>
+      </table>
+    </div>
+
   </div><!-- /panel-body -->
 </aside>
 
 <footer class="statusbar">
-  <span id="sbMsg">就緒 — 按 ▶ 播放</span>
+  <span id="sbMsg">就緒 — 按 ▶ 播放開始</span>
   <span style="margin-left:auto;color:var(--dim);flex-shrink:0;" class="hide-m">模擬練習，非真實交易</span>
 </footer>
 </div>
@@ -348,16 +358,23 @@ select.btn{padding:5px 6px;}
 <div id="notif"></div>
 
 <script>
-// ── State ──────────────────────────────────────────────────────────────────
+// ── Constants ─────────────────────────────────────────────────────────────
 const MAX_LOTS = 10;
+const TOTAL_BARS = 500; // ~41 hours of 5-min bars
+const MINS_PER_BAR = 5;
+
+// ── State ─────────────────────────────────────────────────────────────────
 let candles=[], vis_count=60, vis=0, playing=false, timer=null;
-let selectedLot = 1; // lots user wants to trade next
-// Position: { dir: 'long'|'short', entries: [{price, lots, bar}], totalLots }
-let position = null;
-let totalPnl=0, trades=[], markers=[], selectedTag=null;
+let selectedLot=1, position=null;
+let totalPnl=0, trades=[], manualMarkers=[], tradeMarkers=[];
+let selectedTag=null;
 let indOn={ma5:true,ma10:true,ma20:false,ma60:false,bb:false};
 const maColors={5:'#f59e0b',10:'#a78bfa',20:'#4f8ef7',60:'#00d4a0'};
 let panelOpen=false;
+
+// Pan state
+let panOffset=0; // bars offset from live view (negative = looking back)
+let isDragging=false, dragStartX=0, dragStartOffset=0;
 
 const wrap=document.getElementById('chartWrap');
 const canvas=document.getElementById('chartCanvas');
@@ -366,157 +383,142 @@ const ctx=canvas.getContext('2d');
 const mCtx=mCanvas.getContext('2d');
 function isMob(){return window.innerWidth<=640;}
 
-// ── Lot selector ───────────────────────────────────────────────────────────
-function changeLot(delta){
-  const maxAllowed = position ? MAX_LOTS - position.totalLots : MAX_LOTS;
-  selectedLot = Math.max(1, Math.min(maxAllowed, selectedLot + delta));
-  renderLotUI();
+// ── Time helpers ──────────────────────────────────────────────────────────
+function barsToTime(bars){
+  const mins=bars*MINS_PER_BAR;
+  if(mins<60) return mins+'分';
+  const h=Math.floor(mins/60), m=mins%60;
+  return m>0?h+'小時'+m+'分':h+'小時';
 }
 
+function updateTimeBadge(){
+  if(!vis) return;
+  const el=document.getElementById('timeBadge');
+  el.textContent=`K${vis}  ⏱ ${barsToTime(vis)}`;
+}
+
+// ── Lot UI ────────────────────────────────────────────────────────────────
+function changeLot(delta){
+  const maxAdd=position?MAX_LOTS-position.totalLots:MAX_LOTS;
+  selectedLot=Math.max(1,Math.min(maxAdd,selectedLot+delta));
+  renderLotUI();
+}
 function renderLotUI(){
-  // calc max we can still add
-  const maxAdd = position ? MAX_LOTS - position.totalLots : MAX_LOTS;
-  if(selectedLot > maxAdd) selectedLot = Math.max(1, maxAdd);
-
-  document.getElementById('lotDisp').textContent = selectedLot;
-  document.getElementById('lotDispM').textContent = selectedLot;
-
-  // dots: filled = current position lots, highlighted = selected lot
-  const dots = document.getElementById('lotDots');
-  if(dots){
-    dots.innerHTML='';
-    const total = position ? position.totalLots : 0;
-    const dir = position ? position.dir : null;
-    for(let i=0;i<MAX_LOTS;i++){
-      const d = document.createElement('div');
-      d.className = 'lot-dot';
-      if(i < total) d.classList.add(dir);
-      else if(i < total + selectedLot) d.style.background = dir==='long'?'rgba(0,212,160,0.4)':dir==='short'?'rgba(255,77,109,0.4)':'rgba(79,142,247,0.4)';
-      dots.appendChild(d);
-    }
+  const maxAdd=position?MAX_LOTS-position.totalLots:MAX_LOTS;
+  if(selectedLot>maxAdd) selectedLot=Math.max(1,maxAdd);
+  document.getElementById('lotDisp').textContent=selectedLot;
+  document.getElementById('lotDispM').textContent=selectedLot;
+  const grid=document.getElementById('lotGrid');
+  if(!grid) return;
+  grid.innerHTML='';
+  const total=position?position.totalLots:0;
+  const dir=position?position.dir:null;
+  for(let i=0;i<MAX_LOTS;i++){
+    const d=document.createElement('div');
+    d.className='lot-dot';
+    if(i<total) d.classList.add(dir);
+    else if(i<total+selectedLot) d.classList.add('preview');
+    grid.appendChild(d);
   }
 }
 
-// ── Position helpers ───────────────────────────────────────────────────────
+// ── Position helpers ──────────────────────────────────────────────────────
 function avgPrice(entries){
-  const totalL = entries.reduce((a,e)=>a+e.lots,0);
-  return entries.reduce((a,e)=>a+e.price*e.lots,0) / totalL;
+  const tl=entries.reduce((a,e)=>a+e.lots,0);
+  return entries.reduce((a,e)=>a+e.price*e.lots,0)/tl;
 }
-
 function calcOpenPnl(price){
   if(!position) return 0;
-  const avg = avgPrice(position.entries);
-  const dir = position.dir === 'long' ? 1 : -1;
-  return (price - avg) * dir * position.totalLots;
+  const avg=avgPrice(position.entries);
+  return (position.dir==='long'?1:-1)*(price-avg)*position.totalLots;
 }
 
-// ── Open trade ─────────────────────────────────────────────────────────────
+// ── Trade markers on chart ────────────────────────────────────────────────
+function addTradeMarker(idx, type, price, lots, pnl){
+  // type: 'entry_long','entry_short','exit_win','exit_loss'
+  tradeMarkers.push({idx, type, price, lots, pnl});
+}
+
+// ── Open trade ────────────────────────────────────────────────────────────
 function openTrade(dir){
   if(!vis) return;
-  const price = candles[vis-1].c;
-
-  // no position: open new
+  const price=candles[vis-1].c;
   if(!position){
-    position = { dir, entries:[{price, lots:selectedLot, bar:vis}], totalLots:selectedLot };
-    notify(`▲ 做多 ${selectedLot}口 @ ${price.toFixed(1)}`,'info');
-    if(dir==='short') notify(`▼ 做空 ${selectedLot}口 @ ${price.toFixed(1)}`,'info');
-    showCloseBtn(true);
-    renderPosCard();
-    renderLotUI();
-    draw();
-    sbMsg(`${dir==='long'?'▲做多':'▼做空'} ${selectedLot}口 @ ${price.toFixed(1)}`);
-    return;
+    position={dir, entries:[{price, lots:selectedLot, bar:vis}], totalLots:selectedLot};
+    addTradeMarker(vis-1, dir==='long'?'entry_long':'entry_short', price, selectedLot, null);
+    showCloseBtn(true); renderPosCard(); renderLotUI();
+    sbMsg(`${dir==='long'?'▲做多':'▼做空'} ${selectedLot}口 @ ${price.toFixed(1)}  (${barsToTime(0)}後結算)`);
+    draw(); return;
   }
-
-  // same direction: add lots
-  if(position.dir === dir){
-    const canAdd = MAX_LOTS - position.totalLots;
-    if(canAdd <= 0){ notify('已達最大10口','warn'); return; }
-    const adding = Math.min(selectedLot, canAdd);
+  if(position.dir===dir){
+    const canAdd=MAX_LOTS-position.totalLots;
+    if(canAdd<=0){notify('已達最大10口','warn');return;}
+    const adding=Math.min(selectedLot,canAdd);
     position.entries.push({price, lots:adding, bar:vis});
-    position.totalLots += adding;
-    const newAvg = avgPrice(position.entries);
-    notify(`加倉 ${adding}口 @ ${price.toFixed(1)}  共${position.totalLots}口  均@${newAvg.toFixed(1)}`,'info');
-    renderPosCard();
-    renderLotUI();
-    draw();
-    sbMsg(`加倉 ${adding}口，共${position.totalLots}口，均價 ${newAvg.toFixed(1)}`);
-    return;
+    position.totalLots+=adding;
+    addTradeMarker(vis-1, dir==='long'?'entry_long':'entry_short', price, adding, null);
+    notify(`加倉 ${adding}口 @ ${price.toFixed(1)}  共${position.totalLots}口  均@${avgPrice(position.entries).toFixed(1)}`,'info');
+    renderPosCard(); renderLotUI(); draw(); return;
   }
-
-  // opposite direction: net off
-  const offsetLots = Math.min(selectedLot, position.totalLots);
-  const pnlPerLot = dir==='long' ? position.entries[0].price - price : price - avgPrice(position.entries);
-  // FIFO offset
-  let remaining = offsetLots;
-  let realizedPnl = 0;
-  while(remaining > 0 && position.entries.length > 0){
-    const e = position.entries[0];
-    const take = Math.min(remaining, e.lots);
-    const entryPnl = position.dir==='long' ? (price - e.price)*take : (e.price - price)*take;
-    realizedPnl += entryPnl;
-    e.lots -= take;
-    remaining -= take;
-    if(e.lots === 0) position.entries.shift();
+  // opposite: net off FIFO
+  const offsetLots=Math.min(selectedLot,position.totalLots);
+  let remaining=offsetLots, realizedPnl=0;
+  const firstBar=position.entries[0].bar;
+  while(remaining>0&&position.entries.length>0){
+    const e=position.entries[0];
+    const take=Math.min(remaining,e.lots);
+    realizedPnl+=(position.dir==='long'?price-e.price:e.price-price)*take;
+    e.lots-=take; remaining-=take;
+    if(e.lots===0) position.entries.shift();
   }
-  position.totalLots -= offsetLots;
-  totalPnl += realizedPnl;
-
-  if(position.totalLots === 0){
-    // fully closed by opposite
-    trades.push({dir:position.dir, lots:offsetLots, pnl:realizedPnl, bars: vis - position.entries[0]?.bar ?? 0, note:'反手平倉'});
-    addLog({dir:position.dir, lots:offsetLots, pnl:realizedPnl, note:'反手平倉'});
-    position = null;
-    showCloseBtn(false);
+  position.totalLots-=offsetLots;
+  totalPnl+=realizedPnl;
+  addTradeMarker(vis-1, realizedPnl>=0?'exit_win':'exit_loss', price, offsetLots, realizedPnl);
+  if(position.totalLots===0){
+    const bars=vis-firstBar;
+    trades.push({dir:position.dir, lots:offsetLots, pnl:realizedPnl, bars, note:'反手平倉'});
+    addLog({dir:position.dir, lots:offsetLots, pnl:realizedPnl, bars, note:'反手平倉'});
+    position=null; showCloseBtn(false);
     document.getElementById('posCard').style.display='none';
     document.getElementById('posCardM').style.display='none';
-    updateStats();
-    notify((realizedPnl>=0?'✓ 反手平倉 +':'✗ 反手平倉 ')+realizedPnl.toFixed(1)+' 點','win');
   } else {
-    // partial offset, open new position in opposite direction if selectedLot > position.totalLots
-    const leftover = selectedLot - offsetLots;
-    trades.push({dir:position.dir, lots:offsetLots, pnl:realizedPnl, note:'部分反手'});
-    addLog({dir:position.dir, lots:offsetLots, pnl:realizedPnl, note:'部分反手'});
-    updateStats();
-    notify(`反手抵消 ${offsetLots}口，剩 ${position.totalLots}口${(realizedPnl>=0?' +':' ')+realizedPnl.toFixed(1)+' 點'}`,'info');
-    // if user had more lots than position, open opposite
-    if(leftover > 0){
-      position = {dir, entries:[{price, lots:leftover, bar:vis}], totalLots:leftover};
-      notify(`新開 ${dir==='long'?'多':'空'} ${leftover}口 @ ${price.toFixed(1)}`,'info');
+    trades.push({dir:position.dir, lots:offsetLots, pnl:realizedPnl, bars:vis-firstBar, note:'部分反手'});
+    addLog({dir:position.dir, lots:offsetLots, pnl:realizedPnl, bars:vis-firstBar, note:'部分反手'});
+    if(selectedLot>offsetLots){
+      const leftover=selectedLot-offsetLots;
+      position={dir, entries:[{price, lots:leftover, bar:vis}], totalLots:leftover};
+      addTradeMarker(vis-1, dir==='long'?'entry_long':'entry_short', price, leftover, null);
     }
     renderPosCard();
-    renderLotUI();
   }
-  draw();
+  updateStats(); renderLotUI(); draw();
 }
 
-// ── Close all ──────────────────────────────────────────────────────────────
+// ── Close all ─────────────────────────────────────────────────────────────
 function closeTrade(){
   if(!position) return;
-  const price = candles[vis-1].c;
-  const avg = avgPrice(position.entries);
-  const dir = position.dir;
-  const lots = position.totalLots;
-  const pnl = dir==='long' ? (price-avg)*lots : (avg-price)*lots;
-  const bars = vis - position.entries[0].bar;
-  totalPnl += pnl;
-  trades.push({dir, lots, pnl, bars, note:`${lots}口`});
-  addLog({dir, lots, pnl, note:`${lots}口`});
-  position = null;
-  showCloseBtn(false);
+  const price=candles[vis-1].c;
+  const avg=avgPrice(position.entries);
+  const lots=position.totalLots;
+  const pnl=(position.dir==='long'?price-avg:avg-price)*lots;
+  const bars=vis-position.entries[0].bar;
+  totalPnl+=pnl;
+  addTradeMarker(vis-1, pnl>=0?'exit_win':'exit_loss', price, lots, pnl);
+  trades.push({dir:position.dir, lots, pnl, bars, note:`${lots}口`});
+  addLog({dir:position.dir, lots, pnl, bars, note:`${lots}口`});
+  position=null; showCloseBtn(false);
   document.getElementById('posCard').style.display='none';
   document.getElementById('posCardM').style.display='none';
-  updateStats();
-  notify((pnl>=0?`✓ 全平 +${pnl.toFixed(1)}`:`✗ 全平 ${pnl.toFixed(1)}`)+` 點（${lots}口 ${bars}K）`, pnl>=0?'win':'loss');
-  renderLotUI();
+  updateStats(); renderLotUI();
+  notify((pnl>=0?`✓ 全平 +${pnl.toFixed(1)}`:`✗ 全平 ${pnl.toFixed(1)}`)+` 點（${lots}口 ${barsToTime(bars)}）`,pnl>=0?'win':'loss');
   draw();
 }
 
-function showCloseBtn(show){
-  ['closeBtn','closeBtnM'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display=show?'':'none';});
+function showCloseBtn(s){
+  ['closeBtn','closeBtnM'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display=s?'':'none';});
 }
 
-// ── Render position card ───────────────────────────────────────────────────
+// ── Position card ─────────────────────────────────────────────────────────
 function renderPosCard(){
   if(!position){
     document.getElementById('posCard').style.display='none';
@@ -525,71 +527,43 @@ function renderPosCard(){
   }
   document.getElementById('posCard').style.display='';
   document.getElementById('posCardM').style.display='';
-
-  const dir = position.dir;
-  const label = dir==='long'?'▲ 多單':'▼ 空單';
-  const avg = avgPrice(position.entries);
-  const price = candles[vis-1]?.c ?? avg;
-  const pnl = calcOpenPnl(price);
-  const pnlStr = (pnl>=0?'+':'')+pnl.toFixed(1)+' pts';
-  const col = pnl>=0?'var(--up)':'var(--dn)';
-
-  document.getElementById('posDir').textContent = label;
-  document.getElementById('posDir').className = 'pos-dir '+dir;
-  document.getElementById('posLots').textContent = position.totalLots+'口';
-  document.getElementById('posAvg').textContent = '均@'+avg.toFixed(1);
-  document.getElementById('posPnl').textContent = pnlStr;
-  document.getElementById('posPnl').style.color = col;
-  document.getElementById('posDetail').textContent = `持倉 ${vis - position.entries[0].bar} 根K`;
-
-  // entries list
-  const el = document.getElementById('entriesList');
-  el.innerHTML='';
-  position.entries.forEach((e,i)=>{
-    const ep = dir==='long'?(price-e.price)*e.lots:(e.price-price)*e.lots;
-    const row = document.createElement('div');
-    row.className='entry-row';
-    row.innerHTML=`<span>#${i+1} ${e.lots}口</span><span>@${e.price.toFixed(1)}</span><span style="color:${ep>=0?'var(--up)':'var(--dn)'}">${(ep>=0?'+':'')+ep.toFixed(1)}</span>`;
-    el.appendChild(row);
-  });
-
-  // mobile
-  document.getElementById('posDirM').textContent = label;
-  document.getElementById('posDirM').className = 'pos-dir '+dir;
-  document.getElementById('posLotsM').textContent = position.totalLots+'口';
-  document.getElementById('posAvgM').textContent = '均@'+avg.toFixed(1);
-  document.getElementById('posPnlM').textContent = pnlStr;
-  document.getElementById('posPnlM').style.color = col;
+  const price=candles[vis-1]?.c??avgPrice(position.entries);
+  const pnl=calcOpenPnl(price);
+  const pnlStr=(pnl>=0?'+':'')+pnl.toFixed(1)+' pts';
+  const col=pnl>=0?'var(--up)':'var(--dn)';
+  const avg=avgPrice(position.entries);
+  const bars=vis-position.entries[0].bar;
+  const label=position.dir==='long'?'▲ 多單':'▼ 空單';
+  ['posDir','posDirM'].forEach(id=>{const el=document.getElementById(id);if(el){el.textContent=label;el.className='pos-dir '+position.dir;}});
+  ['posLots','posLotsM'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=position.totalLots+'口';});
+  ['posAvg','posAvgM'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='均@'+avg.toFixed(1);});
+  ['posPnl','posPnlM'].forEach(id=>{const el=document.getElementById(id);if(el){el.textContent=pnlStr;el.style.color=col;}});
+  const det=document.getElementById('posDetail');
+  if(det) det.textContent=`持倉 ${barsToTime(bars)}（${bars}根K）`;
+  const el=document.getElementById('entriesList');
+  if(el){
+    el.innerHTML='';
+    position.entries.forEach((e,i)=>{
+      const ep=(position.dir==='long'?price-e.price:e.price-price)*e.lots;
+      const row=document.createElement('div');
+      row.className='entry-row';
+      row.innerHTML=`<span>#${i+1} ${e.lots}口</span><span>@${e.price.toFixed(1)}</span><span style="color:${ep>=0?'var(--up)':'var(--dn)'}">${(ep>=0?'+':'')+ep.toFixed(1)}</span><span style="color:var(--dim)">${barsToTime(vis-e.bar)}</span>`;
+      el.appendChild(row);
+    });
+  }
 }
 
-// ── Update header live pnl ─────────────────────────────────────────────────
-function updateHeader(){
-  if(!vis) return;
-  const c=candles[vis-1], prev=vis>1?candles[vis-2]:c;
-  document.getElementById('hPrice').textContent=c.c.toFixed(1);
-  document.getElementById('hO').textContent=c.o.toFixed(1);
-  document.getElementById('hH').textContent=c.h.toFixed(1);
-  document.getElementById('hL').textContent=c.l.toFixed(1);
-  document.getElementById('hC').textContent=c.c.toFixed(1);
-  document.getElementById('hBar').textContent=vis;
-  const chg=c.c-prev.c, pct=(chg/prev.c*100).toFixed(2);
-  const chip=document.getElementById('hChip');
-  chip.textContent=(chg>=0?'+':'')+chg.toFixed(1)+'('+pct+'%)';
-  chip.className='chip '+(chg>=0?'up':'dn');
-  if(position) renderPosCard();
-}
-
-// ── Log + stats ────────────────────────────────────────────────────────────
+// ── Log + stats ───────────────────────────────────────────────────────────
 function addLog(t){
   const list=document.getElementById('logList');
   const empty=list.querySelector('.log-empty');
   if(empty) empty.remove();
   const el=document.createElement('div');
   el.className='log-item '+(t.pnl>=0?'win':'loss');
-  el.innerHTML=`<span style="display:flex;justify-content:space-between;gap:8px;"><span>${t.dir==='long'?'▲':'▼'} ${t.lots}口 ${t.note||''}</span><span>${(t.pnl>=0?'+':'')+t.pnl.toFixed(1)}</span></span>`;
+  const timeStr=t.bars?barsToTime(t.bars):'';
+  el.innerHTML=`<div style="display:flex;justify-content:space-between;"><span>${t.dir==='long'?'▲':'▼'} ${t.lots}口 ${t.note||''}</span><span>${(t.pnl>=0?'+':'')+t.pnl.toFixed(1)}</span></div><div style="color:opacity:.7;font-size:9px;">${timeStr}</div>`;
   list.prepend(el);
 }
-
 function updateStats(){
   const el=document.getElementById('sTotalPnl');
   el.textContent=(totalPnl>=0?'+':'')+totalPnl.toFixed(1);
@@ -601,20 +575,20 @@ function updateStats(){
     const pnls=trades.map(t=>t.pnl);
     document.getElementById('sBest').textContent='+'+Math.max(...pnls).toFixed(1);
     document.getElementById('sWorst').textContent=Math.min(...pnls).toFixed(1);
-    const barsArr=trades.filter(t=>t.bars).map(t=>t.bars);
-    document.getElementById('sAvgBar').textContent=barsArr.length?Math.round(barsArr.reduce((a,b)=>a+b,0)/barsArr.length)+'K':'—';
+    const bArr=trades.filter(t=>t.bars).map(t=>t.bars);
+    document.getElementById('sAvgTime').textContent=bArr.length?barsToTime(Math.round(bArr.reduce((a,b)=>a+b,0)/bArr.length)):'—';
   }
   document.getElementById('panelSummary').textContent=
     trades.length?`${trades.length}筆 | ${(totalPnl>=0?'+':'')+totalPnl.toFixed(0)}`:'';
 }
 
-// ── Data gen ───────────────────────────────────────────────────────────────
+// ── Data gen ──────────────────────────────────────────────────────────────
 function genSession(){
   let p=16000+Math.random()*5000;
   const regs=['trend_up','trend_dn','range','volatile'];
   let reg='range',rem=0,out=[];
-  for(let i=0;i<320;i++){
-    if(rem<=0){reg=regs[Math.floor(Math.random()*4)];rem=18+Math.floor(Math.random()*45);}
+  for(let i=0;i<TOTAL_BARS;i++){
+    if(rem<=0){reg=regs[Math.floor(Math.random()*4)];rem=18+Math.floor(Math.random()*55);}
     rem--;
     let bias=0,vol=60;
     if(reg==='trend_up'){bias=.55;vol=52;}
@@ -641,14 +615,24 @@ function calcBB(data,period,mult){
   });
 }
 
-// ── Resize + scale ─────────────────────────────────────────────────────────
-function resize(){const W=wrap.clientWidth,H=wrap.clientHeight;canvas.width=mCanvas.width=W;canvas.height=mCanvas.height=H;draw();}
+// ── Resize ────────────────────────────────────────────────────────────────
+function resize(){
+  const W=wrap.clientWidth,H=wrap.clientHeight;
+  canvas.width=mCanvas.width=W;canvas.height=mCanvas.height=H;draw();
+}
 
-function getSlice(){const start=Math.max(0,vis-vis_count);return{slice:candles.slice(start,vis),start};}
+// ── Viewport: supports panOffset ──────────────────────────────────────────
+function getViewport(){
+  // panOffset: 0=live, positive=looking back (shifted left)
+  const endIdx=Math.max(vis_count, vis-panOffset); // last visible bar index (1-based)
+  const clampedEnd=Math.min(vis, Math.max(vis_count, endIdx)); // can't go beyond vis
+  const start=Math.max(0, clampedEnd-vis_count);
+  return{slice:candles.slice(start, clampedEnd), start, end:clampedEnd};
+}
 
-function getScale(slice,start){
+function getScale(slice, start){
   const mob=isMob();
-  const pad={top:mob?28:32,right:mob?50:54,bottom:mob?24:28,left:6};
+  const pad={top:mob?28:32,right:mob?50:58,bottom:mob?24:28,left:6};
   const W=canvas.width,H=canvas.height,cW=W-pad.left-pad.right,cH=H-pad.top-pad.bottom;
   let allH=slice.map(c=>c.h),allL=slice.map(c=>c.l);
   if(indOn.bb){
@@ -667,10 +651,10 @@ function getScale(slice,start){
   return{W,H,cW,cH,yMax,yMin,toY,xStep,toX,cw,pad};
 }
 
-// ── Draw ───────────────────────────────────────────────────────────────────
+// ── Draw ──────────────────────────────────────────────────────────────────
 function draw(){
   if(!candles.length||!vis) return;
-  const{slice,start}=getSlice();
+  const{slice,start,end}=getViewport();
   if(!slice.length) return;
   const sc=getScale(slice,start);
   const{W,H,cH,yMax,yMin,toY,xStep,toX,cw,pad}=sc;
@@ -691,20 +675,19 @@ function draw(){
     const period=parseInt(document.getElementById('bbPeriod').value)||20;
     const mult=parseFloat(document.getElementById('bbMult').value)||2;
     const bb=calcBB(candles,period,mult);
-    const drawBand=(getVal,style,dash,alpha)=>{
+    const drawLine=(fn,style,dash,alpha)=>{
       ctx.strokeStyle=style;ctx.lineWidth=1;ctx.setLineDash(dash);ctx.globalAlpha=alpha;
       ctx.beginPath();let s=true;
-      slice.forEach((_,i)=>{const b=bb[start+i];if(!b)return;if(s){ctx.moveTo(toX(i),toY(getVal(b)));s=false;}else ctx.lineTo(toX(i),toY(getVal(b)));});
+      slice.forEach((_,i)=>{const b=bb[start+i];if(!b)return;if(s){ctx.moveTo(toX(i),toY(fn(b)));s=false;}else ctx.lineTo(toX(i),toY(fn(b)));});
       ctx.stroke();ctx.globalAlpha=1;
     };
-    // fill
     ctx.beginPath();let f=true;
     slice.forEach((_,i)=>{const b=bb[start+i];if(!b)return;if(f){ctx.moveTo(toX(i),toY(b.upper));f=false;}else ctx.lineTo(toX(i),toY(b.upper));});
     [...slice].reverse().forEach((_,ri)=>{const i=slice.length-1-ri;const b=bb[start+i];if(!b)return;ctx.lineTo(toX(i),toY(b.lower));});
     ctx.closePath();ctx.fillStyle='rgba(244,114,182,0.04)';ctx.fill();
-    drawBand(b=>b.upper,'rgba(244,114,182,0.55)',[3,3],1);
-    drawBand(b=>b.mid,'rgba(244,114,182,0.8)',[5,3],1);
-    drawBand(b=>b.lower,'rgba(244,114,182,0.55)',[3,3],1);
+    drawLine(b=>b.upper,'rgba(244,114,182,0.55)',[3,3],1);
+    drawLine(b=>b.mid,'rgba(244,114,182,0.8)',[5,3],1);
+    drawLine(b=>b.lower,'rgba(244,114,182,0.55)',[3,3],1);
     ctx.setLineDash([]);
   }
 
@@ -721,8 +704,11 @@ function draw(){
     ctx.stroke();ctx.globalAlpha=1;
   });
 
-  // candles
+  // Candles — dim future (panOffset mode shows greyed out future bars)
   slice.forEach((c,i)=>{
+    const absIdx=start+i;
+    const isFuture=absIdx>=vis; // shouldn't happen but guard
+    if(isFuture) return;
     const x=toX(i),isUp=c.c>=c.o,color=isUp?'#00d4a0':'#ff4d6d';
     ctx.strokeStyle=color;ctx.lineWidth=1;
     ctx.beginPath();ctx.moveTo(x,toY(c.h));ctx.lineTo(x,toY(c.l));ctx.stroke();
@@ -731,58 +717,127 @@ function draw(){
     else{ctx.fillStyle='rgba(255,77,109,0.14)';ctx.fillRect(x-cw/2,bTop,cw,bH);ctx.strokeRect(x-cw/2,bTop,cw,bH);}
   });
 
-  // entry lines (one per lot group)
+  // Entry/avg lines
   if(position){
+    const avg=avgPrice(position.entries);
+    // individual entries (faint)
     position.entries.forEach(e=>{
       const eY=toY(e.price);
       const col=position.dir==='long'?'#00d4a0':'#ff4d6d';
-      ctx.setLineDash([4,4]);ctx.strokeStyle=col;ctx.lineWidth=.8;ctx.globalAlpha=.6;
+      ctx.setLineDash([3,5]);ctx.strokeStyle=col;ctx.lineWidth=.7;ctx.globalAlpha=.4;
       ctx.beginPath();ctx.moveTo(pad.left,eY);ctx.lineTo(W-pad.right,eY);ctx.stroke();
       ctx.globalAlpha=1;
     });
-    // avg line bold
-    const avgY=toY(avgPrice(position.entries));
-    const col=position.dir==='long'?'#00d4a0':'#ff4d6d';
-    ctx.setLineDash([6,3]);ctx.strokeStyle=col;ctx.lineWidth=1.5;
+    // avg line
+    const avgY=toY(avg), col=position.dir==='long'?'#00d4a0':'#ff4d6d';
+    ctx.setLineDash([6,3]);ctx.strokeStyle=col;ctx.lineWidth=1.5;ctx.globalAlpha=1;
     ctx.beginPath();ctx.moveTo(pad.left,avgY);ctx.lineTo(W-pad.right,avgY);ctx.stroke();
     ctx.setLineDash([]);
     ctx.fillStyle=position.dir==='long'?'rgba(0,212,160,.15)':'rgba(255,77,109,.15)';
-    ctx.fillRect(W-pad.right+2,avgY-9,50,16);
+    ctx.fillRect(W-pad.right+2,avgY-9,56,16);
     ctx.fillStyle=col;ctx.font='10px IBM Plex Mono,monospace';ctx.textAlign='left';
-    ctx.fillText((position.dir==='long'?'▲':'▼')+avgPrice(position.entries).toFixed(0)+'×'+position.totalLots,W-pad.right+5,avgY+3);
+    ctx.fillText((position.dir==='long'?'▲':'▼')+avg.toFixed(0)+'×'+position.totalLots,W-pad.right+5,avgY+3);
   }
 
-  // last price pill
-  const last=candles[vis-1],lastY=toY(last.c);
-  ctx.fillStyle=last.c>=last.o?'rgba(0,212,160,.9)':'rgba(255,77,109,.9)';
-  ctx.fillRect(W-pad.right+2,lastY-8,50,15);
-  ctx.fillStyle='#0d0f14';ctx.font='bold 9px IBM Plex Mono,monospace';
-  ctx.textAlign='left';ctx.fillText(last.c.toFixed(0),W-pad.right+5,lastY+3);
+  // Live price pill (only in live view)
+  if(panOffset===0){
+    const last=candles[vis-1],lastY=toY(last.c);
+    ctx.fillStyle=last.c>=last.o?'rgba(0,212,160,.9)':'rgba(255,77,109,.9)';
+    ctx.fillRect(W-pad.right+2,lastY-8,54,15);
+    ctx.fillStyle='#0d0f14';ctx.font='bold 9px IBM Plex Mono,monospace';
+    ctx.textAlign='left';ctx.fillText(last.c.toFixed(0),W-pad.right+5,lastY+3);
+  }
 
-  drawMarkers(slice,start,sc);
+  drawOverlays(slice,start,sc);
 }
 
-function drawMarkers(slice,start,sc){
-  const{toX,toY}=sc;
+// ── Overlays: trade markers + manual markers ──────────────────────────────
+function drawOverlays(slice,start,sc){
+  const{toX,toY,cw}=sc;
   mCtx.clearRect(0,0,mCanvas.width,mCanvas.height);
-  markers.forEach(m=>{
-    const i=m.idx-start;if(i<0||i>=slice.length)return;
+
+  // Trade markers
+  tradeMarkers.forEach(m=>{
+    const i=m.idx-start;
+    if(i<0||i>=slice.length) return;
+    const c=candles[m.idx],x=toX(i);
+    if(m.type==='entry_long'){
+      drawArrowUp(x,toY(c.l),m.lots,'#00d4a0','▲');
+    } else if(m.type==='entry_short'){
+      drawArrowDn(x,toY(c.h),m.lots,'#ff4d6d','▼');
+    } else if(m.type==='exit_win'){
+      const pnlStr='+'+(m.pnl?m.pnl.toFixed(1):'');
+      drawExitMark(x,toY(c.c),m.lots,'#00d4a0','✓',pnlStr);
+    } else if(m.type==='exit_loss'){
+      const pnlStr=m.pnl?m.pnl.toFixed(1):'';
+      drawExitMark(x,toY(c.c),m.lots,'#ff4d6d','✗',pnlStr);
+    }
+  });
+
+  // Manual markers
+  manualMarkers.forEach(m=>{
+    const i=m.idx-start;
+    if(i<0||i>=slice.length) return;
     const c=candles[m.idx],x=toX(i);
     if(m.type==='B'){
-      const y=toY(c.l)+4;
       mCtx.fillStyle='#a78bfa';
+      const y=toY(c.l)+4;
       mCtx.beginPath();mCtx.moveTo(x,y);mCtx.lineTo(x-5,y+11);mCtx.lineTo(x+5,y+11);mCtx.closePath();mCtx.fill();
-      mCtx.fillStyle='#a78bfa';mCtx.font='9px sans-serif';mCtx.textAlign='center';mCtx.fillText(m.label||'B',x,y+21);
-    }else{
-      const y=toY(c.h)-4;
+      mCtx.font='9px sans-serif';mCtx.textAlign='center';mCtx.fillText(m.label||'B',x,y+21);
+    } else {
       mCtx.fillStyle='#f59e0b';
+      const y=toY(c.h)-4;
       mCtx.beginPath();mCtx.moveTo(x,y);mCtx.lineTo(x-5,y-11);mCtx.lineTo(x+5,y-11);mCtx.closePath();mCtx.fill();
-      mCtx.fillStyle='#f59e0b';mCtx.font='9px sans-serif';mCtx.textAlign='center';mCtx.fillText(m.label||'S',x,y-15);
+      mCtx.font='9px sans-serif';mCtx.textAlign='center';mCtx.fillText(m.label||'S',x,y-15);
     }
   });
 }
 
-// ── Play ───────────────────────────────────────────────────────────────────
+function drawArrowUp(x,baseY,lots,color,sym){
+  const y=baseY+4;
+  mCtx.fillStyle=color;
+  mCtx.beginPath();mCtx.moveTo(x,y);mCtx.lineTo(x-6,y+14);mCtx.lineTo(x+6,y+14);mCtx.closePath();mCtx.fill();
+  mCtx.fillStyle=color;mCtx.font='bold 9px IBM Plex Mono,monospace';mCtx.textAlign='center';
+  mCtx.fillText(`${sym}${lots}`,x,y+24);
+}
+function drawArrowDn(x,baseY,lots,color,sym){
+  const y=baseY-4;
+  mCtx.fillStyle=color;
+  mCtx.beginPath();mCtx.moveTo(x,y);mCtx.lineTo(x-6,y-14);mCtx.lineTo(x+6,y-14);mCtx.closePath();mCtx.fill();
+  mCtx.fillStyle=color;mCtx.font='bold 9px IBM Plex Mono,monospace';mCtx.textAlign='center';
+  mCtx.fillText(`${sym}${lots}`,x,y-18);
+}
+function drawExitMark(x,baseY,lots,color,sym,pnlStr){
+  // diamond
+  const y=baseY;
+  mCtx.fillStyle=color+'33';mCtx.strokeStyle=color;mCtx.lineWidth=1.5;
+  mCtx.beginPath();mCtx.moveTo(x,y-8);mCtx.lineTo(x+7,y);mCtx.lineTo(x,y+8);mCtx.lineTo(x-7,y);mCtx.closePath();
+  mCtx.fill();mCtx.stroke();
+  mCtx.fillStyle=color;mCtx.font='bold 8px IBM Plex Mono,monospace';mCtx.textAlign='center';
+  mCtx.fillText(sym,x,y+3);
+  mCtx.font='9px IBM Plex Mono,monospace';
+  mCtx.fillText(pnlStr,x,y+18);
+}
+
+// ── Header update ──────────────────────────────────────────────────────────
+function updateHeader(){
+  if(!vis) return;
+  const c=candles[vis-1],prev=vis>1?candles[vis-2]:c;
+  document.getElementById('hPrice').textContent=c.c.toFixed(1);
+  document.getElementById('hO').textContent=c.o.toFixed(1);
+  document.getElementById('hH').textContent=c.h.toFixed(1);
+  document.getElementById('hL').textContent=c.l.toFixed(1);
+  document.getElementById('hC').textContent=c.c.toFixed(1);
+  document.getElementById('hBar').textContent=vis;
+  const chg=c.c-prev.c,pct=(chg/prev.c*100).toFixed(2);
+  const chip=document.getElementById('hChip');
+  chip.textContent=(chg>=0?'+':'')+chg.toFixed(1)+'('+pct+'%)';
+  chip.className='chip '+(chg>=0?'up':'dn');
+  updateTimeBadge();
+  if(position) renderPosCard();
+}
+
+// ── Play ──────────────────────────────────────────────────────────────────
 function togglePlay(){
   if(vis>=candles.length){notify('行情走完，按 ↺','info');return;}
   playing=!playing;
@@ -790,26 +845,41 @@ function togglePlay(){
   if(playing){
     const spd=parseInt(document.getElementById('speedSel').value);
     timer=setInterval(()=>{
-      if(vis<candles.length){vis++;draw();updateHeader();}
-      else{clearInterval(timer);playing=false;document.getElementById('playBtn').textContent='▶';sbMsg('行情走完！按 ↺ 繼續');}
+      if(vis<candles.length){
+        vis++;
+        if(panOffset>0) panOffset=0; // snap to live when playing
+        draw();updateHeader();
+      } else {
+        clearInterval(timer);playing=false;
+        document.getElementById('playBtn').textContent='▶';
+        sbMsg(`行情走完（共${barsToTime(vis)}）！按 ↺ 繼續`);
+      }
     },spd);
-  }else clearInterval(timer);
+  } else clearInterval(timer);
 }
-function stepOne(){if(vis<candles.length){vis++;draw();updateHeader();}}
+function stepOne(){
+  if(vis<candles.length){
+    vis++;
+    if(panOffset>0) panOffset=0;
+    draw();updateHeader();
+  }
+}
 
-// ── Session ────────────────────────────────────────────────────────────────
+// ── Session ───────────────────────────────────────────────────────────────
 function newSession(){
   clearInterval(timer);playing=false;
-  candles=genSession();vis=22;markers=[];position=null;selectedLot=1;
+  candles=genSession();vis=25;panOffset=0;
+  manualMarkers=[];tradeMarkers=[];position=null;selectedLot=1;trades=[];totalPnl=0;
   document.getElementById('playBtn').textContent='▶';
   showCloseBtn(false);
   document.getElementById('posCard').style.display='none';
   document.getElementById('posCardM').style.display='none';
-  renderLotUI();draw();updateHeader();
-  sbMsg('新行情！找到進場點後選口數，按 ▲做多 / ▼做空');
+  document.getElementById('logList').innerHTML='<div class="log-empty">尚無交易記錄</div>';
+  updateStats();renderLotUI();draw();updateHeader();
+  sbMsg(`新行情 ${TOTAL_BARS}根K（約${barsToTime(TOTAL_BARS)}）！找到進場點後選口數，按 ▲做多 / ▼做空`);
 }
 
-// ── Zoom ───────────────────────────────────────────────────────────────────
+// ── Zoom ──────────────────────────────────────────────────────────────────
 function setVis(n){
   vis_count=Math.max(20,Math.min(150,Math.round(n)));
   document.getElementById('visRange').value=vis_count;
@@ -820,12 +890,75 @@ function setVis(n){
   draw();
 }
 wrap.addEventListener('wheel',e=>{e.preventDefault();setVis(vis_count+(e.deltaY>0?5:-5));},{passive:false});
+
+// ── Pinch zoom ────────────────────────────────────────────────────────────
 let lpd=null;
-wrap.addEventListener('touchstart',e=>{if(e.touches.length===2)lpd=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);},{passive:true});
-wrap.addEventListener('touchmove',e=>{if(e.touches.length===2&&lpd){e.preventDefault();const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);setVis(Math.round(vis_count*lpd/d));lpd=d;}},{passive:false});
+wrap.addEventListener('touchstart',e=>{
+  if(e.touches.length===2) lpd=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+},{passive:true});
+wrap.addEventListener('touchmove',e=>{
+  if(e.touches.length===2&&lpd){
+    e.preventDefault();
+    const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+    setVis(Math.round(vis_count*lpd/d));lpd=d;
+  }
+},{passive:false});
 wrap.addEventListener('touchend',()=>lpd=null,{passive:true});
 
-// ── Indicators ─────────────────────────────────────────────────────────────
+// ── Pan drag (left click) ─────────────────────────────────────────────────
+canvas.addEventListener('mousedown',e=>{
+  if(e.button!==0) return;
+  isDragging=true;
+  dragStartX=e.clientX;
+  dragStartOffset=panOffset;
+  canvas.style.cursor='grabbing';
+});
+window.addEventListener('mousemove',e=>{
+  if(!isDragging) return;
+  const{slice}=getViewport();
+  const sc=getScale(slice,0);
+  const barsPerPx=vis_count/sc.cW;
+  const delta=Math.round((dragStartX-e.clientX)*barsPerPx);
+  panOffset=Math.max(0,Math.min(vis-vis_count, dragStartOffset+delta));
+  draw();
+  // show pan badge
+  if(panOffset>0){
+    const pb=document.getElementById('panBadge');
+    pb.textContent=`← 覆盤  往前 ${barsToTime(panOffset)}`;
+    pb.classList.add('show');
+  } else {
+    document.getElementById('panBadge').classList.remove('show');
+  }
+});
+window.addEventListener('mouseup',e=>{
+  if(!isDragging) return;
+  isDragging=false;
+  canvas.style.cursor='crosshair';
+  if(panOffset===0) document.getElementById('panBadge').classList.remove('show');
+});
+canvas.style.cursor='crosshair';
+
+// Touch pan (single finger, non-pinch)
+let touchPanStart=null, touchPanOffsetStart=0;
+wrap.addEventListener('touchstart',e=>{
+  if(e.touches.length===1){
+    touchPanStart=e.touches[0].clientX;
+    touchPanOffsetStart=panOffset;
+  }
+},{passive:true});
+wrap.addEventListener('touchmove',e=>{
+  if(e.touches.length===1&&touchPanStart!==null){
+    const{slice}=getViewport();
+    const sc=getScale(slice,0);
+    const barsPerPx=vis_count/sc.cW;
+    const delta=Math.round((touchPanStart-e.touches[0].clientX)*barsPerPx);
+    panOffset=Math.max(0,Math.min(vis-vis_count, touchPanOffsetStart+delta));
+    draw();
+  }
+},{passive:true});
+wrap.addEventListener('touchend',()=>touchPanStart=null,{passive:true});
+
+// ── Indicators ────────────────────────────────────────────────────────────
 function toggleInd(el){
   const type=el.dataset.type;
   if(type==='ma'){const key='ma'+el.dataset.p;indOn[key]=!indOn[key];el.classList.toggle('off',!indOn[key]);}
@@ -833,15 +966,15 @@ function toggleInd(el){
   draw();
 }
 
-// ── Markers ────────────────────────────────────────────────────────────────
+// ── Manual markers ────────────────────────────────────────────────────────
 function addMark(type){
-  if(!vis)return;
+  if(!vis) return;
   const label=selectedTag?type+':'+selectedTag:type;
-  markers.push({idx:vis-1,type,label});
-  const{slice,start}=getSlice();drawMarkers(slice,start,getScale(slice,start));
+  manualMarkers.push({idx:vis-1,type,label});
+  const{slice,start}=getViewport();drawOverlays(slice,start,getScale(slice,start));
   sbMsg('📌 「'+label+'」@ K'+vis);
 }
-function clearMarks(){markers=[];mCtx.clearRect(0,0,mCanvas.width,mCanvas.height);}
+function clearManualMarks(){manualMarkers=[];const{slice,start}=getViewport();drawOverlays(slice,start,getScale(slice,start));}
 function selTag(el,tag){
   if(selectedTag===tag){selectedTag=null;document.querySelectorAll('.tag').forEach(t=>t.classList.remove('active'));}
   else{selectedTag=tag;document.querySelectorAll('.tag').forEach(t=>t.classList.remove('active'));el.classList.add('active');}
@@ -852,35 +985,43 @@ function togglePanel(){
   document.getElementById('panelArrow').classList.toggle('open',panelOpen);
 }
 
-// ── Crosshair / tooltip ────────────────────────────────────────────────────
+// ── Crosshair / click tooltip ─────────────────────────────────────────────
 canvas.addEventListener('click',e=>{
-  if(!candles.length||!vis)return;
+  if(isDragging||Math.abs(e.clientX-dragStartX)>4) return;
+  if(!candles.length||!vis) return;
   const rect=canvas.getBoundingClientRect();
   const mx=(e.clientX-rect.left)*(canvas.width/rect.width);
   const my=(e.clientY-rect.top)*(canvas.height/rect.height);
-  const{slice,start}=getSlice();const sc=getScale(slice,start);
+  const{slice,start}=getViewport();const sc=getScale(slice,start);
   const{toX,xStep,W}=sc;
   let nearest=null,minD=9999;
   slice.forEach((_,i)=>{const d=Math.abs(toX(i)-mx);if(d<minD){minD=d;nearest=i;}});
   if(minD<xStep*1.3&&nearest!==null){
-    const c=slice[nearest],isUp=c.c>=c.o,tip=document.getElementById('tip');
-    tip.innerHTML=`<span style="color:${isUp?'#00d4a0':'#ff4d6d'};font-weight:600;">${isUp?'▲':'▼'} K${start+nearest+1}</span><br>O <b>${c.o.toFixed(1)}</b>&nbsp;H <b style="color:#00d4a0">${c.h.toFixed(1)}</b><br>L <b style="color:#ff4d6d">${c.l.toFixed(1)}</b>&nbsp;C <b>${c.c.toFixed(1)}</b><br>振幅 <b>${(c.h-c.l).toFixed(1)}</b>`;
-    const x=toX(nearest);let tx=x+12,ty=my-70;if(tx+130>W)tx=x-145;if(ty<0)ty=6;
+    const c=slice[nearest],isUp=c.c>=c.o,absIdx=start+nearest;
+    const tip=document.getElementById('tip');
+    const tms=tradeMarkers.filter(m=>m.idx===absIdx);
+    const tmHtml=tms.map(m=>`<div style="color:${m.type.includes('long')||m.type==='exit_win'?'var(--up)':'var(--dn)'}">${m.type==='entry_long'?'▲進多':m.type==='entry_short'?'▼進空':m.type==='exit_win'?'✓出場':'✗出場'} ${m.lots}口${m.pnl!==null?' '+(m.pnl>=0?'+':'')+m.pnl.toFixed(1):''}</div>`).join('');
+    tip.innerHTML=`<span style="color:${isUp?'#00d4a0':'#ff4d6d'};font-weight:600;">${isUp?'▲':'▼'} K${absIdx+1} (${barsToTime(absIdx+1)})</span><br>O <b>${c.o.toFixed(1)}</b>&nbsp;H <b style="color:#00d4a0">${c.h.toFixed(1)}</b><br>L <b style="color:#ff4d6d">${c.l.toFixed(1)}</b>&nbsp;C <b>${c.c.toFixed(1)}</b><br>振幅 <b>${(c.h-c.l).toFixed(1)}</b>${tmHtml?'<hr style="border:none;border-top:1px solid var(--border2);margin:4px 0">'+tmHtml:''}`;
+    let tx=toX(nearest)+12,ty=my-70;if(tx+140>W)tx=toX(nearest)-155;if(ty<0)ty=6;
     tip.style.left=tx+'px';tip.style.top=ty+'px';tip.style.display='block';
-    clearTimeout(tip._t);tip._t=setTimeout(()=>tip.style.display='none',2800);
+    clearTimeout(tip._t);tip._t=setTimeout(()=>tip.style.display='none',3000);
   }
 });
+
 canvas.addEventListener('mousemove',e=>{
-  if(isMob()||!candles.length||!vis)return;
+  if(isDragging||isMob()||!candles.length||!vis) return;
   const rect=canvas.getBoundingClientRect();const mx=e.clientX-rect.left,my=e.clientY-rect.top;
-  const{slice,start}=getSlice();const sc=getScale(slice,start);
+  const{slice,start}=getViewport();const sc=getScale(slice,start);
   const{toX,xStep,W,H,yMax,yMin,cH,pad}=sc;
   let nearest=null,minD=9999;
   slice.forEach((_,i)=>{const d=Math.abs(toX(i)-mx);if(d<minD){minD=d;nearest=i;}});
   if(minD<xStep&&nearest!==null){
-    const c=slice[nearest],x=toX(nearest),isUp=c.c>=c.o,tip=document.getElementById('tip');
-    tip.innerHTML=`<span style="color:${isUp?'#00d4a0':'#ff4d6d'};font-weight:600;">${isUp?'▲':'▼'} K${start+nearest+1}</span><br>O <b>${c.o.toFixed(1)}</b>&nbsp;H <b style="color:#00d4a0">${c.h.toFixed(1)}</b><br>L <b style="color:#ff4d6d">${c.l.toFixed(1)}</b>&nbsp;C <b>${c.c.toFixed(1)}</b><br>振幅 <b>${(c.h-c.l).toFixed(1)}</b>`;
-    let tx=x+12,ty=my-60;if(tx+130>W)tx=x-145;if(ty<0)ty=4;
+    const c=slice[nearest],x=toX(nearest),isUp=c.c>=c.o,absIdx=start+nearest;
+    const tms=tradeMarkers.filter(m=>m.idx===absIdx);
+    const tmHtml=tms.map(m=>`<div style="color:${m.type.includes('long')||m.type==='exit_win'?'var(--up)':'var(--dn)'}">${m.type==='entry_long'?'▲進多':m.type==='entry_short'?'▼進空':m.type==='exit_win'?'✓出場':'✗出場'} ${m.lots}口${m.pnl!==null?' '+(m.pnl>=0?'+':'')+m.pnl.toFixed(1):''}</div>`).join('');
+    const tip=document.getElementById('tip');
+    tip.innerHTML=`<span style="color:${isUp?'#00d4a0':'#ff4d6d'};font-weight:600;">${isUp?'▲':'▼'} K${absIdx+1} (${barsToTime(absIdx+1)})</span><br>O <b>${c.o.toFixed(1)}</b>&nbsp;H <b style="color:#00d4a0">${c.h.toFixed(1)}</b><br>L <b style="color:#ff4d6d">${c.l.toFixed(1)}</b>&nbsp;C <b>${c.c.toFixed(1)}</b><br>振幅 <b>${(c.h-c.l).toFixed(1)}</b>${tmHtml?'<hr style="border:none;border-top:1px solid var(--border2);margin:4px 0">'+tmHtml:''}`;
+    let tx=x+12,ty=my-60;if(tx+140>W)tx=x-155;if(ty<0)ty=4;
     tip.style.left=tx+'px';tip.style.top=ty+'px';tip.style.display='block';
     draw();ctx.save();
     ctx.strokeStyle='rgba(255,255,255,0.12)';ctx.setLineDash([3,3]);ctx.lineWidth=.8;
@@ -888,22 +1029,24 @@ canvas.addEventListener('mousemove',e=>{
     ctx.beginPath();ctx.moveTo(pad.left,my);ctx.lineTo(W-pad.right,my);ctx.stroke();
     ctx.setLineDash([]);
     const hovP=yMax-((my-pad.top)/cH)*(yMax-yMin);
-    ctx.fillStyle='rgba(79,142,247,.8)';ctx.fillRect(W-pad.right+2,my-8,50,15);
+    ctx.fillStyle='rgba(79,142,247,.8)';ctx.fillRect(W-pad.right+2,my-8,54,15);
     ctx.fillStyle='#fff';ctx.font='10px IBM Plex Mono,monospace';ctx.textAlign='left';ctx.fillText(hovP.toFixed(0),W-pad.right+5,my+3);
     ctx.restore();
-  }else{document.getElementById('tip').style.display='none';draw();}
+  } else {document.getElementById('tip').style.display='none';draw();}
 });
 canvas.addEventListener('mouseleave',()=>{document.getElementById('tip').style.display='none';draw();});
 
-// ── Keyboard ───────────────────────────────────────────────────────────────
+// ── Keyboard ──────────────────────────────────────────────────────────────
 document.addEventListener('keydown',e=>{
-  if(e.target.tagName==='INPUT'||e.target.tagName==='SELECT')return;
+  if(e.target.tagName==='INPUT'||e.target.tagName==='SELECT') return;
   if(e.code==='Space'){e.preventDefault();togglePlay();}
-  if(e.code==='ArrowRight')stepOne();
+  if(e.code==='ArrowRight'){e.preventDefault();stepOne();}
+  if(e.code==='ArrowLeft'){e.preventDefault();panOffset=Math.min(vis-vis_count, panOffset+5);if(panOffset<0)panOffset=0;draw();}
   if(e.code==='ArrowUp'){e.preventDefault();changeLot(1);}
   if(e.code==='ArrowDown'){e.preventDefault();changeLot(-1);}
   if(e.code==='Equal'||e.code==='NumpadAdd'){e.preventDefault();setVis(vis_count-10);}
   if(e.code==='Minus'||e.code==='NumpadSubtract'){e.preventDefault();setVis(vis_count+10);}
+  if(e.code==='Digit0'){panOffset=0;draw();}
   if(e.key==='l'||e.key==='L')openTrade('long');
   if(e.key==='s'||e.key==='S')openTrade('short');
   if(e.key==='x'||e.key==='X')closeTrade();
@@ -911,22 +1054,21 @@ document.addEventListener('keydown',e=>{
   if(e.key==='n'||e.key==='N')newSession();
 });
 
-// ── Notify / status ────────────────────────────────────────────────────────
+// ── Notify / status ───────────────────────────────────────────────────────
 function notify(msg,type='info'){
   const el=document.getElementById('notif');
   el.textContent=msg;el.className=type+' show';
-  clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),3000);
+  clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),3200);
 }
 function sbMsg(msg){document.getElementById('sbMsg').textContent=msg;}
 
-// ── Init ───────────────────────────────────────────────────────────────────
+// ── Init ──────────────────────────────────────────────────────────────────
 window.addEventListener('resize',resize);
 resize();
 newSession();
-renderLotUI();
 setTimeout(()=>{
   if(!playing&&!position)
-    sbMsg(isMob()?'↑↓調口數 | 雙指縮放 | 點K棒查OHLC':'↑↓=口數  空白=播放  →=+1K  L/S=多空  X=平倉  =/−=縮放');
+    sbMsg(isMob()?'單指拖曳覆盤 | 雙指縮放 | 點K棒查OHLC':'拖曳覆盤 | 滾輪縮放 | 0=回到最新 | 側邊欄有快捷鍵說明');
 },3500);
 </script>
 </body>
