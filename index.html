@@ -19,14 +19,14 @@
 html{height:100%;-webkit-tap-highlight-color:transparent;}
 body{height:100%;background:var(--bg);color:var(--text);font-family:var(--sans);overflow:hidden;}
 
-/* ── Desktop grid ── */
-.app{display:grid;grid-template-rows:52px 1fr 40px;grid-template-columns:1fr 256px;height:100dvh;}
+/* Desktop grid */
+.app{display:grid;grid-template-rows:52px 1fr 40px;grid-template-columns:1fr 264px;height:100dvh;}
 .header{grid-column:1/-1;display:flex;align-items:center;gap:12px;padding:0 14px;border-bottom:1px solid var(--border);background:var(--bg2);z-index:10;min-width:0;}
 .chart-wrap{grid-row:2;grid-column:1;position:relative;overflow:hidden;background:var(--bg);min-width:0;}
 .sidebar{grid-row:2;grid-column:2;display:flex;flex-direction:column;background:var(--bg2);border-left:1px solid var(--border);overflow-y:auto;}
 .statusbar{grid-column:1/-1;display:flex;align-items:center;gap:12px;padding:0 14px;border-top:1px solid var(--border);background:var(--bg2);font-family:var(--mono);font-size:10px;color:var(--muted);overflow:hidden;}
 
-/* ── Mobile overrides ── */
+/* Mobile */
 @media(max-width:640px){
   .app{grid-template-rows:auto 1fr auto auto;grid-template-columns:1fr;height:100dvh;}
   .header{grid-column:1;flex-wrap:wrap;row-gap:4px;padding:8px 10px;height:auto;}
@@ -68,31 +68,31 @@ select.btn{padding:5px 6px;}
 /* Tooltip */
 #tip{position:absolute;background:#1e2330;border:1px solid var(--border2);border-radius:6px;padding:7px 11px;font-family:var(--mono);font-size:10px;pointer-events:none;display:none;z-index:20;line-height:1.8;min-width:110px;}
 
-/* Sidebar blocks */
+/* Sidebar */
 .sblock{padding:12px 14px 10px;border-bottom:1px solid var(--border);}
 .sblock-title{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:9px;font-weight:500;}
 
-/* Collapsible panel (mobile) */
-.panel-header{
-  display:none;
-  align-items:center;justify-content:space-between;
-  padding:10px 12px;cursor:pointer;user-select:none;
-  background:var(--bg2);border-bottom:1px solid var(--border);
-}
-.panel-header-left{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text);}
-.panel-arrow{font-size:11px;color:var(--muted);transition:transform .2s;}
-.panel-arrow.open{transform:rotate(180deg);}
-.panel-body{overflow:hidden;transition:max-height .25s ease;}
-@media(max-width:640px){
-  .panel-header{display:flex;}
-  .panel-body{max-height:0;}
-  .panel-body.open{max-height:600px;}
-}
+/* Lot selector */
+.lot-row{display:flex;align-items:center;gap:6px;margin-bottom:10px;}
+.lot-label{font-size:11px;color:var(--muted);white-space:nowrap;}
+.lot-btn{width:28px;height:28px;border-radius:5px;border:1px solid var(--border2);background:transparent;color:var(--text);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .14s;font-family:var(--mono);}
+.lot-btn:active{transform:scale(.93);}
+.lot-display{font-family:var(--mono);font-size:18px;font-weight:600;min-width:28px;text-align:center;color:var(--text);}
+.lot-dots{display:flex;gap:3px;flex-wrap:wrap;max-width:120px;}
+.lot-dot{width:9px;height:9px;border-radius:50%;background:var(--dim);transition:all .2s;}
+.lot-dot.long{background:var(--up);}
+.lot-dot.short{background:var(--dn);}
 
 /* Position card */
-.pos-card{background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:9px 12px;}
+.pos-card{background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:10px 12px;}
+.pos-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;}
 .pos-dir.long{color:var(--up);}
 .pos-dir.short{color:var(--dn);}
+
+/* Avg price entries list */
+.entries-list{margin-top:6px;display:flex;flex-direction:column;gap:2px;max-height:80px;overflow-y:auto;}
+.entry-row{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--muted);padding:1px 0;}
+.entry-row span:last-child{color:var(--text);}
 
 /* Stats */
 .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
@@ -101,8 +101,8 @@ select.btn{padding:5px 6px;}
 .stat-val{font-family:var(--mono);font-size:13px;font-weight:500;}
 
 /* Log */
-.log-list{display:flex;flex-direction:column;gap:3px;max-height:130px;overflow-y:auto;}
-.log-item{font-family:var(--mono);font-size:10px;padding:4px 8px;border-radius:4px;display:flex;justify-content:space-between;}
+.log-list{display:flex;flex-direction:column;gap:3px;max-height:120px;overflow-y:auto;}
+.log-item{font-family:var(--mono);font-size:10px;padding:4px 8px;border-radius:4px;}
 .log-item.win{background:var(--up2);color:var(--up);}
 .log-item.loss{background:var(--dn2);color:var(--dn);}
 .log-empty{font-size:11px;color:var(--dim);text-align:center;padding:14px 0;}
@@ -117,13 +117,32 @@ select.btn{padding:5px 6px;}
 .ind-btn{font-size:11px;font-family:var(--mono);padding:3px 9px;border-radius:3px;cursor:pointer;border:1px solid;transition:all .14s;}
 .ind-btn.off{opacity:.3;}
 
+/* Collapsible (mobile) */
+.panel-header{display:none;align-items:center;justify-content:space-between;padding:10px 12px;cursor:pointer;user-select:none;background:var(--bg2);border-bottom:1px solid var(--border);}
+.panel-arrow{font-size:11px;color:var(--muted);transition:transform .2s;}
+.panel-arrow.open{transform:rotate(180deg);}
+.panel-body{overflow:hidden;transition:max-height .28s ease;}
+@media(max-width:640px){
+  .panel-header{display:flex;}
+  .panel-body{max-height:0;}
+  .panel-body.open{max-height:700px;}
+}
+
 /* Mobile bottom bar */
 .trade-bar{display:none;}
 @media(max-width:640px){
-  .trade-bar{display:flex;gap:6px;padding:8px 10px;background:var(--bg2);border-top:1px solid var(--border);}
-  .trade-bar .btn{flex:1;padding:11px 4px;font-size:13px;text-align:center;}
+  .trade-bar{display:flex;gap:5px;padding:7px 8px;background:var(--bg2);border-top:1px solid var(--border);align-items:center;}
+  .trade-bar .main-btn{flex:1;padding:10px 4px;font-size:13px;text-align:center;}
   .desk-trade{display:none!important;}
 }
+
+/* Lot counter mobile */
+.lot-mini{display:flex;align-items:center;gap:4px;background:var(--bg3);border:1px solid var(--border2);border-radius:6px;padding:4px 8px;}
+.lot-mini span{font-family:var(--mono);font-size:13px;font-weight:600;}
+
+/* Zoom badge */
+#zoomBadge{position:absolute;top:8px;left:8px;background:rgba(79,142,247,.18);border:1px solid rgba(79,142,247,.3);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--accent);padding:3px 8px;pointer-events:none;opacity:0;transition:opacity .3s;}
+#zoomBadge.show{opacity:1;}
 
 /* Notification */
 #notif{position:fixed;top:10px;left:50%;transform:translateX(-50%) translateY(-10px);z-index:100;font-family:var(--mono);font-size:12px;padding:9px 18px;border-radius:7px;border:1px solid;opacity:0;transition:all .22s;pointer-events:none;white-space:nowrap;max-width:92vw;text-align:center;}
@@ -131,10 +150,7 @@ select.btn{padding:5px 6px;}
 #notif.win{background:var(--up2);border-color:var(--up);color:var(--up);}
 #notif.loss{background:var(--dn2);border-color:var(--dn);color:var(--dn);}
 #notif.info{background:rgba(79,142,247,.12);border-color:var(--accent);color:var(--accent);}
-
-/* Zoom hint badge */
-#zoomBadge{position:absolute;top:8px;left:8px;background:rgba(79,142,247,.18);border:1px solid rgba(79,142,247,.3);border-radius:4px;font-family:var(--mono);font-size:10px;color:var(--accent);padding:3px 8px;pointer-events:none;opacity:0;transition:opacity .3s;}
-#zoomBadge.show{opacity:1;}
+#notif.warn{background:rgba(245,158,11,.12);border-color:var(--gold);color:var(--gold);}
 
 ::-webkit-scrollbar{width:3px;height:3px;}
 ::-webkit-scrollbar-thumb{background:var(--dim);border-radius:2px;}
@@ -177,52 +193,72 @@ select.btn{padding:5px 6px;}
   <div id="zoomBadge"></div>
 </div>
 
-<!-- MOBILE TRADE BAR (always visible bottom) -->
-<div class="trade-bar">
-  <button class="btn btn-up" onclick="openTrade('long')">▲ 做多</button>
-  <button class="btn btn-dn" onclick="openTrade('short')">▼ 做空</button>
-  <button class="btn btn-gold" id="closeBtnM" style="display:none;flex:1;" onclick="closeTrade()">✕ 平倉</button>
-  <button class="btn" onclick="stepOne()" style="flex:0;padding:11px 10px;">+1K</button>
-  <button class="btn btn-acc" onclick="addMark('B')" style="flex:0;padding:11px 10px;">📌</button>
+<!-- MOBILE BOTTOM BAR -->
+<div class="trade-bar" id="tradeBar">
+  <!-- lot picker mini -->
+  <div class="lot-mini">
+    <button class="lot-btn" onclick="changeLot(-1)" style="width:22px;height:22px;font-size:12px;">−</button>
+    <span id="lotDispM">1</span>
+    <button class="lot-btn" onclick="changeLot(1)" style="width:22px;height:22px;font-size:12px;">+</button>
+  </div>
+  <button class="btn btn-up main-btn" onclick="openTrade('long')">▲ 多</button>
+  <button class="btn btn-dn main-btn" onclick="openTrade('short')">▼ 空</button>
+  <button class="btn btn-gold main-btn" id="closeBtnM" style="display:none;" onclick="closeTrade()">✕ 全平</button>
+  <button class="btn" onclick="stepOne()" style="flex:0;padding:10px 8px;font-size:11px;">+1K</button>
 </div>
 
 <!-- SIDEBAR -->
 <aside class="sidebar">
 
-  <!-- Desktop: trade buttons -->
+  <!-- Desktop: lot + trade -->
   <div class="sblock desk-trade">
-    <div class="sblock-title">進場 / 出場</div>
+    <div class="sblock-title">口數 / 進出場</div>
+
+    <!-- Lot selector -->
+    <div class="lot-row">
+      <span class="lot-label">口數</span>
+      <button class="lot-btn" onclick="changeLot(-1)">−</button>
+      <span class="lot-display" id="lotDisp">1</span>
+      <button class="lot-btn" onclick="changeLot(1)">+</button>
+      <div class="lot-dots" id="lotDots"></div>
+    </div>
+
     <div style="display:flex;gap:6px;margin-bottom:7px;">
       <button class="btn btn-up" style="flex:1;padding:9px;font-size:13px;" onclick="openTrade('long')">▲ 做多</button>
       <button class="btn btn-dn" style="flex:1;padding:9px;font-size:13px;" onclick="openTrade('short')">▼ 做空</button>
     </div>
-    <button class="btn btn-gold" id="closeBtn" style="width:100%;display:none;" onclick="closeTrade()">✕ 平倉</button>
-    <div id="posCard" style="display:none;margin-top:8px;">
+    <button class="btn btn-gold" id="closeBtn" style="width:100%;display:none;margin-bottom:8px;" onclick="closeTrade()">✕ 全部平倉</button>
+
+    <!-- Position display -->
+    <div id="posCard" style="display:none;">
       <div class="pos-card">
-        <div style="display:flex;justify-content:space-between;align-items:center;">
-          <span class="pos-dir" id="posDir" style="font-family:var(--mono);font-size:11px;font-weight:600;">—</span>
-          <span style="font-size:10px;color:var(--muted);font-family:var(--mono);" id="posEntry">@—</span>
+        <div class="pos-row">
+          <span class="pos-dir" id="posDir" style="font-family:var(--mono);font-size:12px;font-weight:600;">—</span>
+          <span style="font-family:var(--mono);font-size:11px;color:var(--muted);" id="posLots">0口</span>
+          <span style="font-family:var(--mono);font-size:11px;color:var(--muted);" id="posAvg">均@—</span>
         </div>
-        <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:3px;" id="posDetail">持倉中...</div>
-        <div style="font-family:var(--mono);font-size:17px;font-weight:600;margin-top:4px;" id="posPnl">+0</div>
+        <div style="font-family:var(--mono);font-size:20px;font-weight:600;margin:4px 0;" id="posPnl">+0</div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--muted);" id="posDetail">持倉K: 0</div>
+        <!-- individual entries -->
+        <div class="entries-list" id="entriesList"></div>
       </div>
     </div>
   </div>
 
-  <!-- Mobile: position indicator (slim) -->
+  <!-- Mobile: pos indicator slim -->
   <div id="posCardM" style="display:none;padding:7px 10px;background:var(--bg3);border-bottom:1px solid var(--border);">
-    <div style="display:flex;justify-content:space-between;align-items:center;">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
       <span class="pos-dir" id="posDirM" style="font-family:var(--mono);font-size:11px;font-weight:600;">—</span>
-      <span style="font-size:10px;color:var(--muted);font-family:var(--mono);" id="posEntryM">@—</span>
-      <div style="font-family:var(--mono);font-size:15px;font-weight:600;" id="posPnlM">+0</div>
+      <span style="font-size:10px;color:var(--muted);font-family:var(--mono);" id="posLotsM">0口</span>
+      <span style="font-size:10px;color:var(--muted);font-family:var(--mono);" id="posAvgM">均@—</span>
+      <div style="font-family:var(--mono);font-size:15px;font-weight:600;margin-left:auto;" id="posPnlM">+0</div>
     </div>
   </div>
 
-  <!-- COLLAPSIBLE PANEL (mobile tap to expand) -->
+  <!-- COLLAPSIBLE PANEL -->
   <div class="panel-header" onclick="togglePanel()">
-    <div class="panel-header-left">
-      <span>⚙</span>
-      <span>指標 / 標記 / 績效</span>
+    <div style="display:flex;align-items:center;gap:8px;font-size:12px;">
+      <span>⚙</span><span>指標 / 標記 / 績效</span>
       <span id="panelSummary" style="font-family:var(--mono);font-size:10px;color:var(--accent);"></span>
     </div>
     <span class="panel-arrow" id="panelArrow">▼</span>
@@ -239,8 +275,8 @@ select.btn{padding:5px 6px;}
         <div class="ind-btn off" style="color:#00d4a0;border-color:#00d4a0;" data-type="ma" data-p="60" onclick="toggleInd(this)">MA60</div>
         <div class="ind-btn off" style="color:#f472b6;border-color:#f472b6;" data-type="bb" onclick="toggleInd(this)">BBand</div>
       </div>
-      <div id="bbSettings" style="display:none;margin-top:8px;font-size:11px;color:var(--muted);display:none;">
-        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+      <div id="bbSettings" style="display:none;margin-top:8px;">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:11px;color:var(--muted);">
           <span>週期</span>
           <input type="number" id="bbPeriod" value="20" min="5" max="50" style="width:46px;background:var(--bg3);border:1px solid var(--border2);border-radius:4px;color:var(--text);font-family:var(--mono);font-size:11px;padding:2px 5px;" onchange="draw()">
           <span>倍數</span>
@@ -253,16 +289,15 @@ select.btn{padding:5px 6px;}
     <div class="sblock">
       <div class="sblock-title">顯示K線數</div>
       <div style="display:flex;align-items:center;gap:8px;">
-        <input type="range" id="visRange" min="20" max="150" value="60" style="flex:1;"
-          oninput="setVis(this.value)">
+        <input type="range" id="visRange" min="20" max="150" value="60" style="flex:1;" oninput="setVis(this.value)">
         <span style="font-family:var(--mono);font-size:12px;min-width:32px;" id="visLabel">60</span>
       </div>
-      <div style="font-size:10px;color:var(--dim);margin-top:4px;">電腦：滾輪縮放｜手機：雙指捏合</div>
+      <div style="font-size:10px;color:var(--dim);margin-top:4px;">電腦：滾輪縮放 ｜ 手機：雙指捏合</div>
     </div>
 
     <!-- Pattern tags -->
     <div class="sblock">
-      <div class="sblock-title">標記型態 <span style="font-size:9px;color:var(--dim);font-weight:400;">（先選型態，再按買/賣點）</span></div>
+      <div class="sblock-title">標記型態</div>
       <div class="tags-wrap" style="margin-bottom:8px;">
         <div class="tag" onclick="selTag(this,'破底翻')">破底翻</div>
         <div class="tag" onclick="selTag(this,'假突破')">假突破</div>
@@ -304,20 +339,22 @@ select.btn{padding:5px 6px;}
   </div><!-- /panel-body -->
 </aside>
 
-<!-- STATUSBAR -->
 <footer class="statusbar">
   <span id="sbMsg">就緒 — 按 ▶ 播放</span>
   <span style="margin-left:auto;color:var(--dim);flex-shrink:0;" class="hide-m">模擬練習，非真實交易</span>
 </footer>
-</div><!-- /app -->
+</div>
 
 <div id="notif"></div>
 
 <script>
 // ── State ──────────────────────────────────────────────────────────────────
+const MAX_LOTS = 10;
 let candles=[], vis_count=60, vis=0, playing=false, timer=null;
-let pos=null, totalPnl=0, trades=[], markers=[];
-let selectedTag=null;
+let selectedLot = 1; // lots user wants to trade next
+// Position: { dir: 'long'|'short', entries: [{price, lots, bar}], totalLots }
+let position = null;
+let totalPnl=0, trades=[], markers=[], selectedTag=null;
 let indOn={ma5:true,ma10:true,ma20:false,ma60:false,bb:false};
 const maColors={5:'#f59e0b',10:'#a78bfa',20:'#4f8ef7',60:'#00d4a0'};
 let panelOpen=false;
@@ -327,64 +364,249 @@ const canvas=document.getElementById('chartCanvas');
 const mCanvas=document.getElementById('markCanvas');
 const ctx=canvas.getContext('2d');
 const mCtx=mCanvas.getContext('2d');
-
 function isMob(){return window.innerWidth<=640;}
 
-// ── Collapsible panel ──────────────────────────────────────────────────────
-function togglePanel(){
-  panelOpen=!panelOpen;
-  document.getElementById('panelBody').classList.toggle('open',panelOpen);
-  document.getElementById('panelArrow').classList.toggle('open',panelOpen);
+// ── Lot selector ───────────────────────────────────────────────────────────
+function changeLot(delta){
+  const maxAllowed = position ? MAX_LOTS - position.totalLots : MAX_LOTS;
+  selectedLot = Math.max(1, Math.min(maxAllowed, selectedLot + delta));
+  renderLotUI();
 }
 
-// ── Zoom (vis_count) ───────────────────────────────────────────────────────
-function setVis(n){
-  vis_count=Math.max(20,Math.min(150,Math.round(n)));
-  document.getElementById('visRange').value=vis_count;
-  document.getElementById('visLabel').textContent=vis_count;
-  showZoomBadge();
+function renderLotUI(){
+  // calc max we can still add
+  const maxAdd = position ? MAX_LOTS - position.totalLots : MAX_LOTS;
+  if(selectedLot > maxAdd) selectedLot = Math.max(1, maxAdd);
+
+  document.getElementById('lotDisp').textContent = selectedLot;
+  document.getElementById('lotDispM').textContent = selectedLot;
+
+  // dots: filled = current position lots, highlighted = selected lot
+  const dots = document.getElementById('lotDots');
+  if(dots){
+    dots.innerHTML='';
+    const total = position ? position.totalLots : 0;
+    const dir = position ? position.dir : null;
+    for(let i=0;i<MAX_LOTS;i++){
+      const d = document.createElement('div');
+      d.className = 'lot-dot';
+      if(i < total) d.classList.add(dir);
+      else if(i < total + selectedLot) d.style.background = dir==='long'?'rgba(0,212,160,0.4)':dir==='short'?'rgba(255,77,109,0.4)':'rgba(79,142,247,0.4)';
+      dots.appendChild(d);
+    }
+  }
+}
+
+// ── Position helpers ───────────────────────────────────────────────────────
+function avgPrice(entries){
+  const totalL = entries.reduce((a,e)=>a+e.lots,0);
+  return entries.reduce((a,e)=>a+e.price*e.lots,0) / totalL;
+}
+
+function calcOpenPnl(price){
+  if(!position) return 0;
+  const avg = avgPrice(position.entries);
+  const dir = position.dir === 'long' ? 1 : -1;
+  return (price - avg) * dir * position.totalLots;
+}
+
+// ── Open trade ─────────────────────────────────────────────────────────────
+function openTrade(dir){
+  if(!vis) return;
+  const price = candles[vis-1].c;
+
+  // no position: open new
+  if(!position){
+    position = { dir, entries:[{price, lots:selectedLot, bar:vis}], totalLots:selectedLot };
+    notify(`▲ 做多 ${selectedLot}口 @ ${price.toFixed(1)}`,'info');
+    if(dir==='short') notify(`▼ 做空 ${selectedLot}口 @ ${price.toFixed(1)}`,'info');
+    showCloseBtn(true);
+    renderPosCard();
+    renderLotUI();
+    draw();
+    sbMsg(`${dir==='long'?'▲做多':'▼做空'} ${selectedLot}口 @ ${price.toFixed(1)}`);
+    return;
+  }
+
+  // same direction: add lots
+  if(position.dir === dir){
+    const canAdd = MAX_LOTS - position.totalLots;
+    if(canAdd <= 0){ notify('已達最大10口','warn'); return; }
+    const adding = Math.min(selectedLot, canAdd);
+    position.entries.push({price, lots:adding, bar:vis});
+    position.totalLots += adding;
+    const newAvg = avgPrice(position.entries);
+    notify(`加倉 ${adding}口 @ ${price.toFixed(1)}  共${position.totalLots}口  均@${newAvg.toFixed(1)}`,'info');
+    renderPosCard();
+    renderLotUI();
+    draw();
+    sbMsg(`加倉 ${adding}口，共${position.totalLots}口，均價 ${newAvg.toFixed(1)}`);
+    return;
+  }
+
+  // opposite direction: net off
+  const offsetLots = Math.min(selectedLot, position.totalLots);
+  const pnlPerLot = dir==='long' ? position.entries[0].price - price : price - avgPrice(position.entries);
+  // FIFO offset
+  let remaining = offsetLots;
+  let realizedPnl = 0;
+  while(remaining > 0 && position.entries.length > 0){
+    const e = position.entries[0];
+    const take = Math.min(remaining, e.lots);
+    const entryPnl = position.dir==='long' ? (price - e.price)*take : (e.price - price)*take;
+    realizedPnl += entryPnl;
+    e.lots -= take;
+    remaining -= take;
+    if(e.lots === 0) position.entries.shift();
+  }
+  position.totalLots -= offsetLots;
+  totalPnl += realizedPnl;
+
+  if(position.totalLots === 0){
+    // fully closed by opposite
+    trades.push({dir:position.dir, lots:offsetLots, pnl:realizedPnl, bars: vis - position.entries[0]?.bar ?? 0, note:'反手平倉'});
+    addLog({dir:position.dir, lots:offsetLots, pnl:realizedPnl, note:'反手平倉'});
+    position = null;
+    showCloseBtn(false);
+    document.getElementById('posCard').style.display='none';
+    document.getElementById('posCardM').style.display='none';
+    updateStats();
+    notify((realizedPnl>=0?'✓ 反手平倉 +':'✗ 反手平倉 ')+realizedPnl.toFixed(1)+' 點','win');
+  } else {
+    // partial offset, open new position in opposite direction if selectedLot > position.totalLots
+    const leftover = selectedLot - offsetLots;
+    trades.push({dir:position.dir, lots:offsetLots, pnl:realizedPnl, note:'部分反手'});
+    addLog({dir:position.dir, lots:offsetLots, pnl:realizedPnl, note:'部分反手'});
+    updateStats();
+    notify(`反手抵消 ${offsetLots}口，剩 ${position.totalLots}口${(realizedPnl>=0?' +':' ')+realizedPnl.toFixed(1)+' 點'}`,'info');
+    // if user had more lots than position, open opposite
+    if(leftover > 0){
+      position = {dir, entries:[{price, lots:leftover, bar:vis}], totalLots:leftover};
+      notify(`新開 ${dir==='long'?'多':'空'} ${leftover}口 @ ${price.toFixed(1)}`,'info');
+    }
+    renderPosCard();
+    renderLotUI();
+  }
   draw();
 }
 
-let zoomT=null;
-function showZoomBadge(){
-  const b=document.getElementById('zoomBadge');
-  b.textContent=vis_count+' 根K';
-  b.classList.add('show');
-  clearTimeout(zoomT);
-  zoomT=setTimeout(()=>b.classList.remove('show'),1200);
+// ── Close all ──────────────────────────────────────────────────────────────
+function closeTrade(){
+  if(!position) return;
+  const price = candles[vis-1].c;
+  const avg = avgPrice(position.entries);
+  const dir = position.dir;
+  const lots = position.totalLots;
+  const pnl = dir==='long' ? (price-avg)*lots : (avg-price)*lots;
+  const bars = vis - position.entries[0].bar;
+  totalPnl += pnl;
+  trades.push({dir, lots, pnl, bars, note:`${lots}口`});
+  addLog({dir, lots, pnl, note:`${lots}口`});
+  position = null;
+  showCloseBtn(false);
+  document.getElementById('posCard').style.display='none';
+  document.getElementById('posCardM').style.display='none';
+  updateStats();
+  notify((pnl>=0?`✓ 全平 +${pnl.toFixed(1)}`:`✗ 全平 ${pnl.toFixed(1)}`)+` 點（${lots}口 ${bars}K）`, pnl>=0?'win':'loss');
+  renderLotUI();
+  draw();
 }
 
-// Mouse wheel zoom
-wrap.addEventListener('wheel',e=>{
-  e.preventDefault();
-  const delta=e.deltaY>0?5:-5;
-  setVis(vis_count+delta);
-},{passive:false});
+function showCloseBtn(show){
+  ['closeBtn','closeBtnM'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display=show?'':'none';});
+}
 
-// Pinch zoom (touch)
-let lastPinchDist=null;
-wrap.addEventListener('touchstart',e=>{
-  if(e.touches.length===2){
-    lastPinchDist=Math.hypot(
-      e.touches[0].clientX-e.touches[1].clientX,
-      e.touches[0].clientY-e.touches[1].clientY
-    );
+// ── Render position card ───────────────────────────────────────────────────
+function renderPosCard(){
+  if(!position){
+    document.getElementById('posCard').style.display='none';
+    document.getElementById('posCardM').style.display='none';
+    return;
   }
-},{passive:true});
-wrap.addEventListener('touchmove',e=>{
-  if(e.touches.length===2&&lastPinchDist!==null){
-    e.preventDefault();
-    const dist=Math.hypot(
-      e.touches[0].clientX-e.touches[1].clientX,
-      e.touches[0].clientY-e.touches[1].clientY
-    );
-    const ratio=lastPinchDist/dist;
-    setVis(Math.round(vis_count*ratio));
-    lastPinchDist=dist;
+  document.getElementById('posCard').style.display='';
+  document.getElementById('posCardM').style.display='';
+
+  const dir = position.dir;
+  const label = dir==='long'?'▲ 多單':'▼ 空單';
+  const avg = avgPrice(position.entries);
+  const price = candles[vis-1]?.c ?? avg;
+  const pnl = calcOpenPnl(price);
+  const pnlStr = (pnl>=0?'+':'')+pnl.toFixed(1)+' pts';
+  const col = pnl>=0?'var(--up)':'var(--dn)';
+
+  document.getElementById('posDir').textContent = label;
+  document.getElementById('posDir').className = 'pos-dir '+dir;
+  document.getElementById('posLots').textContent = position.totalLots+'口';
+  document.getElementById('posAvg').textContent = '均@'+avg.toFixed(1);
+  document.getElementById('posPnl').textContent = pnlStr;
+  document.getElementById('posPnl').style.color = col;
+  document.getElementById('posDetail').textContent = `持倉 ${vis - position.entries[0].bar} 根K`;
+
+  // entries list
+  const el = document.getElementById('entriesList');
+  el.innerHTML='';
+  position.entries.forEach((e,i)=>{
+    const ep = dir==='long'?(price-e.price)*e.lots:(e.price-price)*e.lots;
+    const row = document.createElement('div');
+    row.className='entry-row';
+    row.innerHTML=`<span>#${i+1} ${e.lots}口</span><span>@${e.price.toFixed(1)}</span><span style="color:${ep>=0?'var(--up)':'var(--dn)'}">${(ep>=0?'+':'')+ep.toFixed(1)}</span>`;
+    el.appendChild(row);
+  });
+
+  // mobile
+  document.getElementById('posDirM').textContent = label;
+  document.getElementById('posDirM').className = 'pos-dir '+dir;
+  document.getElementById('posLotsM').textContent = position.totalLots+'口';
+  document.getElementById('posAvgM').textContent = '均@'+avg.toFixed(1);
+  document.getElementById('posPnlM').textContent = pnlStr;
+  document.getElementById('posPnlM').style.color = col;
+}
+
+// ── Update header live pnl ─────────────────────────────────────────────────
+function updateHeader(){
+  if(!vis) return;
+  const c=candles[vis-1], prev=vis>1?candles[vis-2]:c;
+  document.getElementById('hPrice').textContent=c.c.toFixed(1);
+  document.getElementById('hO').textContent=c.o.toFixed(1);
+  document.getElementById('hH').textContent=c.h.toFixed(1);
+  document.getElementById('hL').textContent=c.l.toFixed(1);
+  document.getElementById('hC').textContent=c.c.toFixed(1);
+  document.getElementById('hBar').textContent=vis;
+  const chg=c.c-prev.c, pct=(chg/prev.c*100).toFixed(2);
+  const chip=document.getElementById('hChip');
+  chip.textContent=(chg>=0?'+':'')+chg.toFixed(1)+'('+pct+'%)';
+  chip.className='chip '+(chg>=0?'up':'dn');
+  if(position) renderPosCard();
+}
+
+// ── Log + stats ────────────────────────────────────────────────────────────
+function addLog(t){
+  const list=document.getElementById('logList');
+  const empty=list.querySelector('.log-empty');
+  if(empty) empty.remove();
+  const el=document.createElement('div');
+  el.className='log-item '+(t.pnl>=0?'win':'loss');
+  el.innerHTML=`<span style="display:flex;justify-content:space-between;gap:8px;"><span>${t.dir==='long'?'▲':'▼'} ${t.lots}口 ${t.note||''}</span><span>${(t.pnl>=0?'+':'')+t.pnl.toFixed(1)}</span></span>`;
+  list.prepend(el);
+}
+
+function updateStats(){
+  const el=document.getElementById('sTotalPnl');
+  el.textContent=(totalPnl>=0?'+':'')+totalPnl.toFixed(1);
+  el.style.color=totalPnl>=0?'var(--up)':'var(--dn)';
+  document.getElementById('sCount').textContent=trades.length;
+  if(trades.length){
+    const wins=trades.filter(t=>t.pnl>=0).length;
+    document.getElementById('sWinRate').textContent=Math.round(wins/trades.length*100)+'%';
+    const pnls=trades.map(t=>t.pnl);
+    document.getElementById('sBest').textContent='+'+Math.max(...pnls).toFixed(1);
+    document.getElementById('sWorst').textContent=Math.min(...pnls).toFixed(1);
+    const barsArr=trades.filter(t=>t.bars).map(t=>t.bars);
+    document.getElementById('sAvgBar').textContent=barsArr.length?Math.round(barsArr.reduce((a,b)=>a+b,0)/barsArr.length)+'K':'—';
   }
-},{passive:false});
-wrap.addEventListener('touchend',()=>{lastPinchDist=null;},{passive:true});
+  document.getElementById('panelSummary').textContent=
+    trades.length?`${trades.length}筆 | ${(totalPnl>=0?'+':'')+totalPnl.toFixed(0)}`:'';
+}
 
 // ── Data gen ───────────────────────────────────────────────────────────────
 function genSession(){
@@ -408,47 +630,32 @@ function genSession(){
   return out;
 }
 
-// ── Bollinger Bands ────────────────────────────────────────────────────────
+// ── BB ─────────────────────────────────────────────────────────────────────
 function calcBB(data,period,mult){
   return data.map((_,i)=>{
-    if(i<period-1)return null;
-    const slice=data.slice(i-period+1,i+1).map(d=>d.c);
-    const mean=slice.reduce((a,b)=>a+b,0)/period;
-    const std=Math.sqrt(slice.reduce((a,b)=>a+(b-mean)**2,0)/period);
-    return{mid:mean,upper:mean+mult*std,lower:mean-mult*std};
+    if(i<period-1) return null;
+    const sl=data.slice(i-period+1,i+1).map(d=>d.c);
+    const m=sl.reduce((a,b)=>a+b,0)/period;
+    const std=Math.sqrt(sl.reduce((a,b)=>a+(b-m)**2,0)/period);
+    return{mid:m,upper:m+mult*std,lower:m-mult*std};
   });
 }
 
-// ── Resize ─────────────────────────────────────────────────────────────────
-function resize(){
-  const W=wrap.clientWidth,H=wrap.clientHeight;
-  canvas.width=mCanvas.width=W;
-  canvas.height=mCanvas.height=H;
-  draw();
-}
+// ── Resize + scale ─────────────────────────────────────────────────────────
+function resize(){const W=wrap.clientWidth,H=wrap.clientHeight;canvas.width=mCanvas.width=W;canvas.height=mCanvas.height=H;draw();}
 
-// ── Scale ──────────────────────────────────────────────────────────────────
-function getSlice(){
-  const start=Math.max(0,vis-vis_count);
-  return{slice:candles.slice(start,vis),start};
-}
-function getScale(slice){
+function getSlice(){const start=Math.max(0,vis-vis_count);return{slice:candles.slice(start,vis),start};}
+
+function getScale(slice,start){
   const mob=isMob();
   const pad={top:mob?28:32,right:mob?50:54,bottom:mob?24:28,left:6};
-  const W=canvas.width,H=canvas.height;
-  const cW=W-pad.left-pad.right,cH=H-pad.top-pad.bottom;
-
-  // include BB in price range if on
+  const W=canvas.width,H=canvas.height,cW=W-pad.left-pad.right,cH=H-pad.top-pad.bottom;
   let allH=slice.map(c=>c.h),allL=slice.map(c=>c.l);
-  if(indOn.bb&&candles.length){
+  if(indOn.bb){
     const period=parseInt(document.getElementById('bbPeriod').value)||20;
     const mult=parseFloat(document.getElementById('bbMult').value)||2;
     const bb=calcBB(candles,period,mult);
-    const{start}=getSlice();
-    slice.forEach((_,i)=>{
-      const b=bb[start+i];
-      if(b){allH.push(b.upper);allL.push(b.lower);}
-    });
+    slice.forEach((_,i)=>{const b=bb[start+i];if(b){allH.push(b.upper);allL.push(b.lower);}});
   }
   const maxP=Math.max(...allH),minP=Math.min(...allL);
   const rng=maxP-minP||200,ext=rng*.1;
@@ -462,10 +669,10 @@ function getScale(slice){
 
 // ── Draw ───────────────────────────────────────────────────────────────────
 function draw(){
-  if(!candles.length||!vis)return;
+  if(!candles.length||!vis) return;
   const{slice,start}=getSlice();
-  if(!slice.length)return;
-  const sc=getScale(slice);
+  if(!slice.length) return;
+  const sc=getScale(slice,start);
   const{W,H,cH,yMax,yMin,toY,xStep,toX,cw,pad}=sc;
   ctx.clearRect(0,0,W,H);
 
@@ -479,58 +686,37 @@ function draw(){
     ctx.textAlign='right';ctx.fillText(pr.toFixed(0),W-4,y+3.5);
   }
 
-  // Bollinger Bands
+  // BB
   if(indOn.bb){
     const period=parseInt(document.getElementById('bbPeriod').value)||20;
     const mult=parseFloat(document.getElementById('bbMult').value)||2;
     const bb=calcBB(candles,period,mult);
-
-    // fill band
-    ctx.beginPath();
-    let firstValid=true;
-    slice.forEach((_,i)=>{
-      const b=bb[start+i];if(!b)return;
-      if(firstValid){ctx.moveTo(toX(i),toY(b.upper));firstValid=false;}
-      else ctx.lineTo(toX(i),toY(b.upper));
-    });
-    const sliceRev=[...slice].map((_,i)=>slice.length-1-i);
-    sliceRev.forEach(i=>{
-      const b=bb[start+i];if(!b)return;
-      ctx.lineTo(toX(i),toY(b.lower));
-    });
-    ctx.closePath();
-    ctx.fillStyle='rgba(244,114,182,0.05)';ctx.fill();
-
-    // upper line
-    ctx.strokeStyle='rgba(244,114,182,0.5)';ctx.lineWidth=1;ctx.setLineDash([3,3]);
-    ctx.beginPath();let s1=true;
-    slice.forEach((_,i)=>{const b=bb[start+i];if(!b)return;if(s1){ctx.moveTo(toX(i),toY(b.upper));s1=false;}else ctx.lineTo(toX(i),toY(b.upper));});
-    ctx.stroke();
-
-    // mid line (SMA)
-    ctx.strokeStyle='rgba(244,114,182,0.7)';ctx.lineWidth=1;ctx.setLineDash([5,3]);
-    ctx.beginPath();let s2=true;
-    slice.forEach((_,i)=>{const b=bb[start+i];if(!b)return;if(s2){ctx.moveTo(toX(i),toY(b.mid));s2=false;}else ctx.lineTo(toX(i),toY(b.mid));});
-    ctx.stroke();
-
-    // lower line
-    ctx.strokeStyle='rgba(244,114,182,0.5)';ctx.lineWidth=1;ctx.setLineDash([3,3]);
-    ctx.beginPath();let s3=true;
-    slice.forEach((_,i)=>{const b=bb[start+i];if(!b)return;if(s3){ctx.moveTo(toX(i),toY(b.lower));s3=false;}else ctx.lineTo(toX(i),toY(b.lower));});
-    ctx.stroke();
+    const drawBand=(getVal,style,dash,alpha)=>{
+      ctx.strokeStyle=style;ctx.lineWidth=1;ctx.setLineDash(dash);ctx.globalAlpha=alpha;
+      ctx.beginPath();let s=true;
+      slice.forEach((_,i)=>{const b=bb[start+i];if(!b)return;if(s){ctx.moveTo(toX(i),toY(getVal(b)));s=false;}else ctx.lineTo(toX(i),toY(getVal(b)));});
+      ctx.stroke();ctx.globalAlpha=1;
+    };
+    // fill
+    ctx.beginPath();let f=true;
+    slice.forEach((_,i)=>{const b=bb[start+i];if(!b)return;if(f){ctx.moveTo(toX(i),toY(b.upper));f=false;}else ctx.lineTo(toX(i),toY(b.upper));});
+    [...slice].reverse().forEach((_,ri)=>{const i=slice.length-1-ri;const b=bb[start+i];if(!b)return;ctx.lineTo(toX(i),toY(b.lower));});
+    ctx.closePath();ctx.fillStyle='rgba(244,114,182,0.04)';ctx.fill();
+    drawBand(b=>b.upper,'rgba(244,114,182,0.55)',[3,3],1);
+    drawBand(b=>b.mid,'rgba(244,114,182,0.8)',[5,3],1);
+    drawBand(b=>b.lower,'rgba(244,114,182,0.55)',[3,3],1);
     ctx.setLineDash([]);
   }
 
-  // MA lines
+  // MA
   [{key:'ma5',p:5},{key:'ma10',p:10},{key:'ma20',p:20},{key:'ma60',p:60}].forEach(({key,p})=>{
-    if(!indOn[key])return;
+    if(!indOn[key]) return;
     ctx.strokeStyle=maColors[p];ctx.lineWidth=1.2;ctx.globalAlpha=.75;
-    ctx.beginPath();let started=false;
+    ctx.beginPath();let s=true;
     slice.forEach((_,i)=>{
       const ai=start+i;if(ai<p-1)return;
       const ma=candles.slice(ai-p+1,ai+1).reduce((a,b)=>a+b.c,0)/p;
-      const x=toX(i),y=toY(ma);
-      if(!started){ctx.moveTo(x,y);started=true;}else ctx.lineTo(x,y);
+      if(s){ctx.moveTo(toX(i),toY(ma));s=false;}else ctx.lineTo(toX(i),toY(ma));
     });
     ctx.stroke();ctx.globalAlpha=1;
   });
@@ -545,21 +731,30 @@ function draw(){
     else{ctx.fillStyle='rgba(255,77,109,0.14)';ctx.fillRect(x-cw/2,bTop,cw,bH);ctx.strokeRect(x-cw/2,bTop,cw,bH);}
   });
 
-  // entry line
-  if(pos){
-    const eY=toY(pos.price),col=pos.dir==='long'?'#00d4a0':'#ff4d6d';
-    ctx.setLineDash([5,4]);ctx.strokeStyle=col;ctx.lineWidth=1;
-    ctx.beginPath();ctx.moveTo(pad.left,eY);ctx.lineTo(W-pad.right,eY);ctx.stroke();
+  // entry lines (one per lot group)
+  if(position){
+    position.entries.forEach(e=>{
+      const eY=toY(e.price);
+      const col=position.dir==='long'?'#00d4a0':'#ff4d6d';
+      ctx.setLineDash([4,4]);ctx.strokeStyle=col;ctx.lineWidth=.8;ctx.globalAlpha=.6;
+      ctx.beginPath();ctx.moveTo(pad.left,eY);ctx.lineTo(W-pad.right,eY);ctx.stroke();
+      ctx.globalAlpha=1;
+    });
+    // avg line bold
+    const avgY=toY(avgPrice(position.entries));
+    const col=position.dir==='long'?'#00d4a0':'#ff4d6d';
+    ctx.setLineDash([6,3]);ctx.strokeStyle=col;ctx.lineWidth=1.5;
+    ctx.beginPath();ctx.moveTo(pad.left,avgY);ctx.lineTo(W-pad.right,avgY);ctx.stroke();
     ctx.setLineDash([]);
-    ctx.fillStyle=pos.dir==='long'?'rgba(0,212,160,.14)':'rgba(255,77,109,.14)';
-    ctx.fillRect(W-pad.right+2,eY-9,50,16);
+    ctx.fillStyle=position.dir==='long'?'rgba(0,212,160,.15)':'rgba(255,77,109,.15)';
+    ctx.fillRect(W-pad.right+2,avgY-9,50,16);
     ctx.fillStyle=col;ctx.font='10px IBM Plex Mono,monospace';ctx.textAlign='left';
-    ctx.fillText((pos.dir==='long'?'▲':'▼')+pos.price.toFixed(0),W-pad.right+5,eY+3);
+    ctx.fillText((position.dir==='long'?'▲':'▼')+avgPrice(position.entries).toFixed(0)+'×'+position.totalLots,W-pad.right+5,avgY+3);
   }
 
   // last price pill
-  const last=candles[vis-1],lastY=toY(last.c),isLastUp=last.c>=last.o;
-  ctx.fillStyle=isLastUp?'rgba(0,212,160,.9)':'rgba(255,77,109,.9)';
+  const last=candles[vis-1],lastY=toY(last.c);
+  ctx.fillStyle=last.c>=last.o?'rgba(0,212,160,.9)':'rgba(255,77,109,.9)';
   ctx.fillRect(W-pad.right+2,lastY-8,50,15);
   ctx.fillStyle='#0d0f14';ctx.font='bold 9px IBM Plex Mono,monospace';
   ctx.textAlign='left';ctx.fillText(last.c.toFixed(0),W-pad.right+5,lastY+3);
@@ -571,61 +766,32 @@ function drawMarkers(slice,start,sc){
   const{toX,toY}=sc;
   mCtx.clearRect(0,0,mCanvas.width,mCanvas.height);
   markers.forEach(m=>{
-    const i=m.idx-start;
-    if(i<0||i>=slice.length)return;
+    const i=m.idx-start;if(i<0||i>=slice.length)return;
     const c=candles[m.idx],x=toX(i);
     if(m.type==='B'){
       const y=toY(c.l)+4;
       mCtx.fillStyle='#a78bfa';
       mCtx.beginPath();mCtx.moveTo(x,y);mCtx.lineTo(x-5,y+11);mCtx.lineTo(x+5,y+11);mCtx.closePath();mCtx.fill();
-      mCtx.fillStyle='#a78bfa';mCtx.font='9px DM Sans,sans-serif';mCtx.textAlign='center';
-      mCtx.fillText(m.label||'B',x,y+21);
+      mCtx.fillStyle='#a78bfa';mCtx.font='9px sans-serif';mCtx.textAlign='center';mCtx.fillText(m.label||'B',x,y+21);
     }else{
       const y=toY(c.h)-4;
       mCtx.fillStyle='#f59e0b';
       mCtx.beginPath();mCtx.moveTo(x,y);mCtx.lineTo(x-5,y-11);mCtx.lineTo(x+5,y-11);mCtx.closePath();mCtx.fill();
-      mCtx.fillStyle='#f59e0b';mCtx.font='9px DM Sans,sans-serif';mCtx.textAlign='center';
-      mCtx.fillText(m.label||'S',x,y-15);
+      mCtx.fillStyle='#f59e0b';mCtx.font='9px sans-serif';mCtx.textAlign='center';mCtx.fillText(m.label||'S',x,y-15);
     }
   });
 }
 
-// ── Header update ──────────────────────────────────────────────────────────
-function updateHeader(){
-  if(!vis)return;
-  const c=candles[vis-1],prev=vis>1?candles[vis-2]:c;
-  document.getElementById('hPrice').textContent=c.c.toFixed(1);
-  document.getElementById('hO').textContent=c.o.toFixed(1);
-  document.getElementById('hH').textContent=c.h.toFixed(1);
-  document.getElementById('hL').textContent=c.l.toFixed(1);
-  document.getElementById('hC').textContent=c.c.toFixed(1);
-  document.getElementById('hBar').textContent=vis;
-  const chg=c.c-prev.c,pct=(chg/prev.c*100).toFixed(2);
-  const chip=document.getElementById('hChip');
-  chip.textContent=(chg>=0?'+':'')+chg.toFixed(1)+'('+pct+'%)';
-  chip.className='chip '+(chg>=0?'up':'dn');
-  if(pos){
-    const pnl=pos.dir==='long'?c.c-pos.price:pos.price-c.c;
-    const str=(pnl>=0?'+':'')+pnl.toFixed(1)+' pts';
-    ['posPnl','posPnlM'].forEach(id=>{
-      const el=document.getElementById(id);
-      if(el){el.textContent=str;el.style.color=pnl>=0?'var(--up)':'var(--dn)';}
-    });
-    const det=document.getElementById('posDetail');
-    if(det)det.textContent='@'+pos.price.toFixed(1)+' | '+(vis-pos.startBar)+'根K';
-  }
-}
-
 // ── Play ───────────────────────────────────────────────────────────────────
 function togglePlay(){
-  if(vis>=candles.length){notify('行情走完，按 ↺ 開新行情','info');return;}
+  if(vis>=candles.length){notify('行情走完，按 ↺','info');return;}
   playing=!playing;
   document.getElementById('playBtn').textContent=playing?'⏸':'▶';
   if(playing){
     const spd=parseInt(document.getElementById('speedSel').value);
     timer=setInterval(()=>{
       if(vis<candles.length){vis++;draw();updateHeader();}
-      else{clearInterval(timer);playing=false;document.getElementById('playBtn').textContent='▶';sbMsg('行情走完！按 ↺ 繼續練習');}
+      else{clearInterval(timer);playing=false;document.getElementById('playBtn').textContent='▶';sbMsg('行情走完！按 ↺ 繼續');}
     },spd);
   }else clearInterval(timer);
 }
@@ -634,72 +800,37 @@ function stepOne(){if(vis<candles.length){vis++;draw();updateHeader();}}
 // ── Session ────────────────────────────────────────────────────────────────
 function newSession(){
   clearInterval(timer);playing=false;
-  candles=genSession();vis=22;markers=[];
+  candles=genSession();vis=22;markers=[];position=null;selectedLot=1;
   document.getElementById('playBtn').textContent='▶';
-  pos=null;
-  ['closeBtn','closeBtnM'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
-  ['posCard','posCardM'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
-  draw();updateHeader();
-  sbMsg('新行情！找到進場點後按 ▲做多 / ▼做空');
+  showCloseBtn(false);
+  document.getElementById('posCard').style.display='none';
+  document.getElementById('posCardM').style.display='none';
+  renderLotUI();draw();updateHeader();
+  sbMsg('新行情！找到進場點後選口數，按 ▲做多 / ▼做空');
 }
 
-// ── Trade ──────────────────────────────────────────────────────────────────
-function openTrade(dir){
-  if(pos){notify('請先平倉','info');return;}
-  if(!vis)return;
-  const price=candles[vis-1].c;
-  pos={dir,price,startBar:vis};
-  ['closeBtn','closeBtnM'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='';});
-  ['posCard','posCardM'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='';});
-  const label=dir==='long'?'▲ 多單':'▼ 空單';
-  ['posDir','posDirM'].forEach(id=>{const el=document.getElementById(id);if(el){el.textContent=label;el.className='pos-dir '+dir;}});
-  ['posEntry','posEntryM'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='@'+price.toFixed(1);});
-  sbMsg((dir==='long'?'▲ 做多':'▼ 做空')+' 進場 @ '+price.toFixed(1));
+// ── Zoom ───────────────────────────────────────────────────────────────────
+function setVis(n){
+  vis_count=Math.max(20,Math.min(150,Math.round(n)));
+  document.getElementById('visRange').value=vis_count;
+  document.getElementById('visLabel').textContent=vis_count;
+  const b=document.getElementById('zoomBadge');
+  b.textContent=vis_count+' 根K';b.classList.add('show');
+  clearTimeout(b._t);b._t=setTimeout(()=>b.classList.remove('show'),1200);
   draw();
 }
+wrap.addEventListener('wheel',e=>{e.preventDefault();setVis(vis_count+(e.deltaY>0?5:-5));},{passive:false});
+let lpd=null;
+wrap.addEventListener('touchstart',e=>{if(e.touches.length===2)lpd=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);},{passive:true});
+wrap.addEventListener('touchmove',e=>{if(e.touches.length===2&&lpd){e.preventDefault();const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);setVis(Math.round(vis_count*lpd/d));lpd=d;}},{passive:false});
+wrap.addEventListener('touchend',()=>lpd=null,{passive:true});
 
-function closeTrade(){
-  if(!pos)return;
-  const price=candles[vis-1].c;
-  const pnl=pos.dir==='long'?price-pos.price:pos.price-price;
-  totalPnl+=pnl;
-  const bars=vis-pos.startBar;
-  trades.push({dir:pos.dir,entry:pos.price,exit:price,pnl,bars});
-  addLog(trades[trades.length-1]);
-  pos=null;
-  ['closeBtn','closeBtnM'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
-  ['posCard','posCardM'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
-  updateStats();
-  notify((pnl>=0?'✓ 獲利 +':'✗ 虧損 ')+pnl.toFixed(1)+' 點 ('+bars+'根K)',pnl>=0?'win':'loss');
+// ── Indicators ─────────────────────────────────────────────────────────────
+function toggleInd(el){
+  const type=el.dataset.type;
+  if(type==='ma'){const key='ma'+el.dataset.p;indOn[key]=!indOn[key];el.classList.toggle('off',!indOn[key]);}
+  else if(type==='bb'){indOn.bb=!indOn.bb;el.classList.toggle('off',!indOn.bb);document.getElementById('bbSettings').style.display=indOn.bb?'block':'none';}
   draw();
-}
-
-function addLog(t){
-  const list=document.getElementById('logList');
-  const empty=list.querySelector('.log-empty');
-  if(empty)empty.remove();
-  const el=document.createElement('div');
-  el.className='log-item '+(t.pnl>=0?'win':'loss');
-  el.innerHTML=`<span>${t.dir==='long'?'▲':'▼'} ${t.entry.toFixed(0)}→${t.exit.toFixed(0)}</span><span>${(t.pnl>=0?'+':'')+t.pnl.toFixed(1)}</span>`;
-  list.prepend(el);
-}
-
-function updateStats(){
-  const el=document.getElementById('sTotalPnl');
-  el.textContent=(totalPnl>=0?'+':'')+totalPnl.toFixed(1);
-  el.style.color=totalPnl>=0?'var(--up)':'var(--dn)';
-  document.getElementById('sCount').textContent=trades.length;
-  if(trades.length){
-    const wins=trades.filter(t=>t.pnl>=0).length;
-    document.getElementById('sWinRate').textContent=Math.round(wins/trades.length*100)+'%';
-    const pnls=trades.map(t=>t.pnl);
-    document.getElementById('sBest').textContent='+'+Math.max(...pnls).toFixed(1);
-    document.getElementById('sWorst').textContent=Math.min(...pnls).toFixed(1);
-    document.getElementById('sAvgBar').textContent=Math.round(trades.reduce((a,t)=>a+t.bars,0)/trades.length)+'K';
-  }
-  // update panel summary badge
-  document.getElementById('panelSummary').textContent=
-    trades.length?`${trades.length}筆 | PnL ${(totalPnl>=0?'+':'')+totalPnl.toFixed(0)}`:'';
 }
 
 // ── Markers ────────────────────────────────────────────────────────────────
@@ -707,81 +838,58 @@ function addMark(type){
   if(!vis)return;
   const label=selectedTag?type+':'+selectedTag:type;
   markers.push({idx:vis-1,type,label});
-  const{slice,start}=getSlice();
-  drawMarkers(slice,start,getScale(slice));
+  const{slice,start}=getSlice();drawMarkers(slice,start,getScale(slice,start));
   sbMsg('📌 「'+label+'」@ K'+vis);
 }
-function clearMarks(){markers=[];mCtx.clearRect(0,0,mCanvas.width,mCanvas.height);sbMsg('已清除標記');}
+function clearMarks(){markers=[];mCtx.clearRect(0,0,mCanvas.width,mCanvas.height);}
 function selTag(el,tag){
   if(selectedTag===tag){selectedTag=null;document.querySelectorAll('.tag').forEach(t=>t.classList.remove('active'));}
   else{selectedTag=tag;document.querySelectorAll('.tag').forEach(t=>t.classList.remove('active'));el.classList.add('active');}
 }
-
-// ── Indicators toggle ──────────────────────────────────────────────────────
-function toggleInd(el){
-  const type=el.dataset.type;
-  if(type==='ma'){
-    const p=el.dataset.p;
-    const key='ma'+p;
-    indOn[key]=!indOn[key];
-    el.classList.toggle('off',!indOn[key]);
-  }else if(type==='bb'){
-    indOn.bb=!indOn.bb;
-    el.classList.toggle('off',!indOn.bb);
-    const s=document.getElementById('bbSettings');
-    s.style.display=indOn.bb?'block':'none';
-  }
-  draw();
+function togglePanel(){
+  panelOpen=!panelOpen;
+  document.getElementById('panelBody').classList.toggle('open',panelOpen);
+  document.getElementById('panelArrow').classList.toggle('open',panelOpen);
 }
 
-// ── Touch tap tooltip ──────────────────────────────────────────────────────
+// ── Crosshair / tooltip ────────────────────────────────────────────────────
 canvas.addEventListener('click',e=>{
   if(!candles.length||!vis)return;
   const rect=canvas.getBoundingClientRect();
   const mx=(e.clientX-rect.left)*(canvas.width/rect.width);
   const my=(e.clientY-rect.top)*(canvas.height/rect.height);
-  const{slice,start}=getSlice();
-  const sc=getScale(slice);
+  const{slice,start}=getSlice();const sc=getScale(slice,start);
   const{toX,xStep,W}=sc;
   let nearest=null,minD=9999;
   slice.forEach((_,i)=>{const d=Math.abs(toX(i)-mx);if(d<minD){minD=d;nearest=i;}});
   if(minD<xStep*1.3&&nearest!==null){
-    const c=slice[nearest],isUp=c.c>=c.o;
-    const tip=document.getElementById('tip');
+    const c=slice[nearest],isUp=c.c>=c.o,tip=document.getElementById('tip');
     tip.innerHTML=`<span style="color:${isUp?'#00d4a0':'#ff4d6d'};font-weight:600;">${isUp?'▲':'▼'} K${start+nearest+1}</span><br>O <b>${c.o.toFixed(1)}</b>&nbsp;H <b style="color:#00d4a0">${c.h.toFixed(1)}</b><br>L <b style="color:#ff4d6d">${c.l.toFixed(1)}</b>&nbsp;C <b>${c.c.toFixed(1)}</b><br>振幅 <b>${(c.h-c.l).toFixed(1)}</b>`;
-    let tx=toX(nearest)+12,ty=my-70;
-    if(tx+130>W)tx=toX(nearest)-145;if(ty<0)ty=6;
+    const x=toX(nearest);let tx=x+12,ty=my-70;if(tx+130>W)tx=x-145;if(ty<0)ty=6;
     tip.style.left=tx+'px';tip.style.top=ty+'px';tip.style.display='block';
     clearTimeout(tip._t);tip._t=setTimeout(()=>tip.style.display='none',2800);
   }
 });
-
-// Desktop crosshair
 canvas.addEventListener('mousemove',e=>{
   if(isMob()||!candles.length||!vis)return;
-  const rect=canvas.getBoundingClientRect();
-  const mx=e.clientX-rect.left,my=e.clientY-rect.top;
-  const{slice,start}=getSlice();
-  const sc=getScale(slice);
+  const rect=canvas.getBoundingClientRect();const mx=e.clientX-rect.left,my=e.clientY-rect.top;
+  const{slice,start}=getSlice();const sc=getScale(slice,start);
   const{toX,xStep,W,H,yMax,yMin,cH,pad}=sc;
   let nearest=null,minD=9999;
   slice.forEach((_,i)=>{const d=Math.abs(toX(i)-mx);if(d<minD){minD=d;nearest=i;}});
   if(minD<xStep&&nearest!==null){
-    const c=slice[nearest],x=toX(nearest),isUp=c.c>=c.o;
-    const tip=document.getElementById('tip');
+    const c=slice[nearest],x=toX(nearest),isUp=c.c>=c.o,tip=document.getElementById('tip');
     tip.innerHTML=`<span style="color:${isUp?'#00d4a0':'#ff4d6d'};font-weight:600;">${isUp?'▲':'▼'} K${start+nearest+1}</span><br>O <b>${c.o.toFixed(1)}</b>&nbsp;H <b style="color:#00d4a0">${c.h.toFixed(1)}</b><br>L <b style="color:#ff4d6d">${c.l.toFixed(1)}</b>&nbsp;C <b>${c.c.toFixed(1)}</b><br>振幅 <b>${(c.h-c.l).toFixed(1)}</b>`;
     let tx=x+12,ty=my-60;if(tx+130>W)tx=x-145;if(ty<0)ty=4;
     tip.style.left=tx+'px';tip.style.top=ty+'px';tip.style.display='block';
-    draw();
-    ctx.save();
+    draw();ctx.save();
     ctx.strokeStyle='rgba(255,255,255,0.12)';ctx.setLineDash([3,3]);ctx.lineWidth=.8;
     ctx.beginPath();ctx.moveTo(x,pad.top);ctx.lineTo(x,H-pad.bottom);ctx.stroke();
     ctx.beginPath();ctx.moveTo(pad.left,my);ctx.lineTo(W-pad.right,my);ctx.stroke();
     ctx.setLineDash([]);
     const hovP=yMax-((my-pad.top)/cH)*(yMax-yMin);
     ctx.fillStyle='rgba(79,142,247,.8)';ctx.fillRect(W-pad.right+2,my-8,50,15);
-    ctx.fillStyle='#fff';ctx.font='10px IBM Plex Mono,monospace';ctx.textAlign='left';
-    ctx.fillText(hovP.toFixed(0),W-pad.right+5,my+3);
+    ctx.fillStyle='#fff';ctx.font='10px IBM Plex Mono,monospace';ctx.textAlign='left';ctx.fillText(hovP.toFixed(0),W-pad.right+5,my+3);
     ctx.restore();
   }else{document.getElementById('tip').style.display='none';draw();}
 });
@@ -789,9 +897,11 @@ canvas.addEventListener('mouseleave',()=>{document.getElementById('tip').style.d
 
 // ── Keyboard ───────────────────────────────────────────────────────────────
 document.addEventListener('keydown',e=>{
-  if(e.target.tagName==='SELECT'||e.target.tagName==='INPUT')return;
+  if(e.target.tagName==='INPUT'||e.target.tagName==='SELECT')return;
   if(e.code==='Space'){e.preventDefault();togglePlay();}
   if(e.code==='ArrowRight')stepOne();
+  if(e.code==='ArrowUp'){e.preventDefault();changeLot(1);}
+  if(e.code==='ArrowDown'){e.preventDefault();changeLot(-1);}
   if(e.code==='Equal'||e.code==='NumpadAdd'){e.preventDefault();setVis(vis_count-10);}
   if(e.code==='Minus'||e.code==='NumpadSubtract'){e.preventDefault();setVis(vis_count+10);}
   if(e.key==='l'||e.key==='L')openTrade('long');
@@ -805,7 +915,7 @@ document.addEventListener('keydown',e=>{
 function notify(msg,type='info'){
   const el=document.getElementById('notif');
   el.textContent=msg;el.className=type+' show';
-  clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),2800);
+  clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),3000);
 }
 function sbMsg(msg){document.getElementById('sbMsg').textContent=msg;}
 
@@ -813,10 +923,11 @@ function sbMsg(msg){document.getElementById('sbMsg').textContent=msg;}
 window.addEventListener('resize',resize);
 resize();
 newSession();
+renderLotUI();
 setTimeout(()=>{
-  if(!playing&&!pos)
-    sbMsg(isMob()?'雙指縮放K線數 | 點K棒查看資訊':'滾輪縮放 | 空白=播放 →=+1K  =/- 調整K數  L/S=多空  X=平倉');
-},3000);
+  if(!playing&&!position)
+    sbMsg(isMob()?'↑↓調口數 | 雙指縮放 | 點K棒查OHLC':'↑↓=口數  空白=播放  →=+1K  L/S=多空  X=平倉  =/−=縮放');
+},3500);
 </script>
 </body>
 </html>
