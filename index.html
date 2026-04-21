@@ -176,8 +176,8 @@ select{color:#111!important;background:#fff!important;}
       <option value="450" selected>正常</option>
       <option value="180">快</option>
       <option value="60">極快</option>
-      <option value="live">📡 實盤模擬</option>
     </select>
+    <button class="btn hide-m" id="liveTickToggle" onclick="toggleLiveMode()" title="實盤Tick模擬 — K棒收線前隨機跳動" style="font-size:11px;padding:4px 9px;">📡 Tick</button>
     <button class="btn" id="playBtn" onclick="togglePlay()">▶</button>
     <button class="btn btn-acc hide-m" onclick="stepOne()">+1K</button>
     <button class="btn" onclick="newSession()">↺</button>
@@ -481,8 +481,9 @@ function calcOpenPnl(price){
   return(position.dir==='long'?1:-1)*(price-avgPrice(position.entries))*position.totalLots;
 }
 function livePrice(){
-  if(isLiveMode&&liveCurrentBar)return liveCurrentBar.cur;
-  return candles[vis-1]?.c??0;
+  if(isLiveMode&&liveCurrentBar&&typeof liveCurrentBar.c==='number')return liveCurrentBar.c;
+  const idx=Math.max(0,Math.min(vis-1,candles.length-1));
+  return candles[idx]?.c??0;
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -576,22 +577,29 @@ function renderPosCard(){
   document.getElementById('posCard').style.display='';
   document.getElementById('posCardM').style.display='';
   const price=livePrice();
-  const pnl=calcOpenPnl(price),pnlStr=(pnl>=0?'+':'')+pnl.toFixed(1)+' pts';
-  const col=pnl>=0?'var(--up)':'var(--dn)',avg=avgPrice(position.entries);
-  const bars=vis-position.entries[0].bar,label=position.dir==='long'?'▲ Long':'▼ Short';
+  if(typeof price!=='number'||isNaN(price))return;
+  const avg=avgPrice(position.entries);
+  if(typeof avg!=='number'||isNaN(avg))return;
+  const pnl=calcOpenPnl(price);
+  const pnlStr=(pnl>=0?'+':'')+pnl.toFixed(1)+' pts';
+  const col=pnl>=0?'var(--up)':'var(--dn)';
+  const bars=Math.max(0,vis-position.entries[0].bar);
+  const label=position.dir==='long'?'▲ Long':'▼ Short';
   ['posDir','posDirM'].forEach(id=>{const el=document.getElementById(id);if(el){el.textContent=label;el.className='pos-dir '+position.dir;}});
   ['posLots','posLotsM'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=position.totalLots+'×';});
   ['posAvg','posAvgM'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='avg@'+avg.toFixed(1);});
   ['posPnl','posPnlM'].forEach(id=>{const el=document.getElementById(id);if(el){el.textContent=pnlStr;el.style.color=col;}});
   const det=document.getElementById('posDetail');
-  if(det)det.textContent=`Holding ${barsToTime(bars)} (${bars}K)`;
+  if(det)det.textContent='Holding '+barsToTime(bars)+' ('+bars+'K)';
   const el=document.getElementById('entriesList');
   if(el){
     el.innerHTML='';
     position.entries.forEach((e,i)=>{
+      if(typeof e.price!=='number'||isNaN(e.price))return;
       const ep=(position.dir==='long'?price-e.price:e.price-price)*e.lots;
+      const heldBars=Math.max(0,vis-e.bar);
       const row=document.createElement('div');row.className='entry-row';
-      row.innerHTML=`<span>#${i+1} ${e.lots}×</span><span>@${e.price.toFixed(1)}</span><span style="color:${ep>=0?'var(--up)':'var(--dn)'}">${(ep>=0?'+':'')+ep.toFixed(1)}</span><span style="color:var(--dim)">${barsToTime(vis-e.bar)}</span>`;
+      row.innerHTML='<span>#'+(i+1)+' '+e.lots+'×</span><span>@'+e.price.toFixed(1)+'</span><span style="color:'+(ep>=0?'var(--up)':'var(--dn)')+'">'+((ep>=0?'+':'')+ep.toFixed(1))+'</span><span style="color:var(--dim)">'+barsToTime(heldBars)+'</span>';
       el.appendChild(row);
     });
   }
@@ -759,13 +767,15 @@ function startLiveTick(){
     if(position)renderPosCard();
     drawLiveTick();
     if(t.step>=t.totalSteps){
-      // bar closes
+      // bar closes: snap to final values before clearing
+      t.c=bar.c; t.h=bar.h; t.l=bar.l;
       clearInterval(liveTick);liveTick=null;
-      vis++;
       liveCurrentBar=null;
+      vis++;
+      updateHeader();
       document.getElementById('liveModeBadge').style.display='none';
-      if(vis<candles.length){draw();updateHeader();setTimeout(startLiveTick,120);}
-      else{playing=false;document.getElementById('playBtn').textContent='▶';sbMsg('Session complete — press ↺ for new session');}
+      if(vis<=candles.length-1){draw();setTimeout(startLiveTick,120);}
+      else{draw();playing=false;document.getElementById('playBtn').textContent='▶';sbMsg('Session complete — press ↺ for new session');}
     }
   },50);
 }
@@ -803,23 +813,38 @@ function drawLiveTick(){
 // ═══════════════════════════════════════════════════════════
 // PLAY
 // ═══════════════════════════════════════════════════════════
+function toggleLiveMode(){
+  isLiveMode=!isLiveMode;
+  const btn=document.getElementById('liveTickToggle');
+  if(btn){
+    btn.style.borderColor=isLiveMode?'var(--dn)':'';
+    btn.style.color=isLiveMode?'var(--dn)':'';
+    btn.style.background=isLiveMode?'rgba(255,77,109,.1)':'';
+    btn.textContent=isLiveMode?'📡 Tick ON':'📡 Tick';
+  }
+  document.getElementById('liveModeBadge').style.display=isLiveMode&&playing?'':'none';
+  notify(isLiveMode?'📡 實盤Tick模擬 ON — K棒收線前隨機跳動':'📡 Tick模擬 OFF','info');
+}
+
 function togglePlay(){
   if(vis>=candles.length){notify('Session complete — press ↺','info');return;}
-  const spd=document.getElementById('speedSel').value;
-  isLiveMode=(spd==='live');
+  const spd=parseInt(document.getElementById('speedSel').value)||450;
   if(playing){
     playing=false;clearInterval(timer);timer=null;
-    if(liveTick){clearInterval(liveTick);liveTick=null;liveCurrentBar=null;document.getElementById('liveModeBadge').style.display='none';}
+    if(liveTick){clearInterval(liveTick);liveTick=null;liveCurrentBar=null;}
+    document.getElementById('liveModeBadge').style.display='none';
     document.getElementById('playBtn').textContent='▶';
     return;
   }
   playing=true;document.getElementById('playBtn').textContent='⏸';
-  if(isLiveMode){startLiveTick();}
-  else{
+  if(isLiveMode){
+    document.getElementById('liveModeBadge').style.display='';
+    startLiveTick();
+  } else {
     timer=setInterval(()=>{
       if(vis<candles.length){vis++;if(panOffset>0)panOffset=0;draw();updateHeader();}
-      else{clearInterval(timer);playing=false;document.getElementById('playBtn').textContent='▶';sbMsg(`Complete (${barsToTime(vis)}) — press ↺`);}
-    },parseInt(spd));
+      else{clearInterval(timer);playing=false;document.getElementById('playBtn').textContent='▶';sbMsg('Complete ('+barsToTime(vis)+') — press ↺');}
+    },spd);
   }
 }
 
@@ -838,6 +863,9 @@ function newSession(){
   manualMarkers=[];tradeMarkers=[];position=null;selectedLot=1;trades=[];totalPnl=0;
   document.getElementById('playBtn').textContent='▶';
   document.getElementById('liveModeBadge').style.display='none';
+  isLiveMode=false;
+  const lBtn=document.getElementById('liveTickToggle');
+  if(lBtn){lBtn.textContent='📡 Tick';lBtn.style.borderColor='';lBtn.style.color='';lBtn.style.background='';}
   showCloseBtn(false);
   document.getElementById('posCard').style.display='none';
   document.getElementById('posCardM').style.display='none';
