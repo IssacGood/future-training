@@ -816,13 +816,13 @@ function drawLiveTick(){
   if(isUp){ctx.fillStyle=color;ctx.fillRect(x-cw/2,bTop,cw,bH);}
   else{ctx.fillStyle='rgba(255,77,109,.14)';ctx.fillRect(x-cw/2,bTop,cw,bH);ctx.strokeRect(x-cw/2,bTop,cw,bH);}
   ctx.globalAlpha=1;
-  // live price pill
+  // live price pill (left axis)
   const{W,pad}=sc;
   const liveY=toY(lb.c);
   ctx.fillStyle='rgba(255,200,50,.9)';
-  ctx.fillRect(W-pad.right+2,liveY-8,54,15);
-  ctx.fillStyle='#111';ctx.font='bold 9px IBM Plex Mono,monospace';ctx.textAlign='left';
-  ctx.fillText(lb.c.toFixed(0),W-pad.right+5,liveY+3);
+  ctx.fillRect(2,liveY-8,pad.left-4,15);
+  ctx.fillStyle='#111';ctx.font='bold 9px IBM Plex Mono,monospace';ctx.textAlign='right';
+  ctx.fillText(lb.c.toFixed(0),pad.left-6,liveY+3);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -950,7 +950,7 @@ function getViewport(){
 function getScale(slice,start){
   const mob=isMob();
   const xAxisH=22; // extra height for x-axis time labels
-  const pad={top:mob?28:32,right:mob?52:60,bottom:mob?24+xAxisH:28+xAxisH,left:6};
+  const pad={top:mob?28:32,right:4,bottom:mob?24+xAxisH:28+xAxisH,left:mob?52:58};
   const W=canvas.width,H=canvas.height,cW=W-pad.left-pad.right,cH=H-pad.top-pad.bottom;
   let allH=slice.map(c=>c.h),allL=slice.map(c=>c.l);
   if(isLiveMode&&liveCurrentBar){allH.push(liveCurrentBar.h);allL.push(liveCurrentBar.l);}
@@ -1029,7 +1029,7 @@ function draw(){
     ctx.beginPath();ctx.moveTo(pad.left,y);ctx.lineTo(W-pad.right,y);ctx.stroke();
     const pr=yMax-((yMax-yMin)/5)*i;
     ctx.fillStyle='#3d4455';ctx.font=`${isMob()?9:10}px IBM Plex Mono,monospace`;
-    ctx.textAlign='right';ctx.fillText(pr.toFixed(0),W-4,y+3.5);
+    ctx.textAlign='right';ctx.fillText(pr.toFixed(0),pad.left-4,y+3.5);
   }
 
   // ── BB ────────────────────────────────────────────────────
@@ -1081,18 +1081,18 @@ function draw(){
     ctx.beginPath();ctx.moveTo(pad.left,avgY);ctx.lineTo(W-pad.right,avgY);ctx.stroke();
     ctx.setLineDash([]);
     ctx.fillStyle=position.dir==='long'?'rgba(0,212,160,.15)':'rgba(255,77,109,.15)';
-    ctx.fillRect(W-pad.right+2,avgY-9,58,16);
-    ctx.fillStyle=col;ctx.font='10px IBM Plex Mono,monospace';ctx.textAlign='left';
-    ctx.fillText((position.dir==='long'?'▲':'▼')+avg.toFixed(0)+'×'+position.totalLots,W-pad.right+5,avgY+3);
+    ctx.fillRect(2,avgY-9,pad.left-4,16);
+    ctx.fillStyle=col;ctx.font='10px IBM Plex Mono,monospace';ctx.textAlign='right';
+    ctx.fillText((position.dir==='long'?'▲':'▼')+avg.toFixed(0)+'×'+position.totalLots,pad.left-5,avgY+3);
   }
 
   // ── LIVE PRICE PILL ───────────────────────────────────────
   if(!isLiveMode&&panOffset===0){
     const last=candles[vis-1],lastY=toY(last.c);
     ctx.fillStyle=last.c>=last.o?'rgba(0,212,160,.9)':'rgba(255,77,109,.9)';
-    ctx.fillRect(W-pad.right+2,lastY-8,54,15);
-    ctx.fillStyle='#0d0f14';ctx.font='bold 9px IBM Plex Mono,monospace';ctx.textAlign='left';
-    ctx.fillText(last.c.toFixed(0),W-pad.right+5,lastY+3);
+    ctx.fillRect(2,lastY-8,pad.left-4,15);
+    ctx.fillStyle='#0d0f14';ctx.font='bold 9px IBM Plex Mono,monospace';ctx.textAlign='right';
+    ctx.fillText(last.c.toFixed(0),pad.left-5,lastY+3);
   }
 
   drawOverlays(slice,start,sc);
@@ -1225,8 +1225,8 @@ canvas.addEventListener('mousemove',e=>{
     ctx.beginPath();ctx.moveTo(pad.left,my);ctx.lineTo(W-pad.right,my);ctx.stroke();
     ctx.setLineDash([]);
     const hovP=yMax-((my-pad.top)/cH)*(yMax-yMin);
-    ctx.fillStyle='rgba(79,142,247,.8)';ctx.fillRect(W-pad.right+2,my-8,54,15);
-    ctx.fillStyle='#fff';ctx.font='10px IBM Plex Mono,monospace';ctx.textAlign='left';ctx.fillText(hovP.toFixed(0),W-pad.right+5,my+3);
+    ctx.fillStyle='rgba(79,142,247,.8)';ctx.fillRect(2,my-8,pad.left-4,15);
+    ctx.fillStyle='#fff';ctx.font='10px IBM Plex Mono,monospace';ctx.textAlign='right';ctx.fillText(hovP.toFixed(0),pad.left-5,my+3);
     ctx.restore();
   } else {document.getElementById('tip').style.display='none';draw();}
 });
