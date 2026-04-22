@@ -177,7 +177,7 @@ select{color:#111!important;background:#fff!important;}
       <option value="180">快</option>
       <option value="60">極快</option>
     </select>
-    <button class="btn hide-m" id="liveTickToggle" onclick="toggleLiveMode()" title="實盤Tick模擬 — K棒收線前隨機跳動" style="font-size:11px;padding:4px 9px;">📡 Tick</button>
+    <button class="btn hide-m" id="liveTickToggle" onclick="toggleLiveMode()" title="實盤Tick模擬 — K棒收線前隨機跳動，訓練等待收線的紀律" style="font-size:11px;padding:4px 9px;">📡 Tick（收線前跳動）</button>
     <button class="btn" id="playBtn" onclick="togglePlay()">▶</button>
     <button class="btn btn-acc hide-m" onclick="stepOne()">+1K</button>
     <button class="btn" onclick="newSession()">↺</button>
@@ -745,37 +745,52 @@ document.querySelectorAll('.modal-backdrop').forEach(m=>{
 // LIVE TICK MODE
 // ═══════════════════════════════════════════════════════════
 function startLiveTick(){
-  if(!candles[vis])return;
-  const bar=candles[vis]; // next bar to simulate
-  liveCurrentBar={o:bar.o,h:bar.o,l:bar.o,c:bar.o,targetH:bar.h,targetL:bar.l,targetC:bar.c,step:0,totalSteps:40};
-  document.getElementById('liveModeBadge').style.display='';
+  // guard: must be playing, must have next bar
+  if(!playing||!candles[vis])return;
+  const bar=candles[vis];
+  const spread=bar.h-bar.l||10;
+  liveCurrentBar={
+    o:bar.o, h:bar.o, l:bar.o, c:bar.o,
+    targetH:bar.h, targetL:bar.l, targetC:bar.c,
+    step:0, totalSteps:45
+  };
+  const liveEl=document.getElementById('liveModeBadge');
+  if(liveEl)liveEl.style.display='';
+
   liveTick=setInterval(()=>{
-    if(!liveCurrentBar)return;
-    const t=liveCurrentBar, s=t.step/t.totalSteps;
-    // random walk toward target within H/L bounds
-    const noise=(Math.random()-.5)*((t.targetH-t.targetL)*0.15);
-    const pull=(t.targetC-t.c)*0.08;
+    if(!liveCurrentBar||!playing){clearInterval(liveTick);liveTick=null;return;}
+    const t=liveCurrentBar;
+    const noise=(Math.random()-.5)*spread*0.18;
+    const pull=(t.targetC-t.c)*0.09;
     t.c=+(t.c+noise+pull).toFixed(1);
-    t.h=+Math.max(t.h,t.c).toFixed(1);
-    t.l=+Math.min(t.l,t.c).toFixed(1);
-    // sometimes spike beyond target to simulate wick pressure
-    if(Math.random()<0.05) t.c=+(t.c+(Math.random()-.5)*(t.targetH-t.targetL)*0.3).toFixed(1);
-    t.c=+Math.max(t.targetL*0.999,Math.min(t.targetH*1.001,t.c)).toFixed(1);
-    t.h=+Math.max(t.h,t.c).toFixed(1);
-    t.l=+Math.min(t.l,t.c).toFixed(1);
+    // occasional spike to simulate wick pressure
+    if(Math.random()<0.06) t.c=+(t.c+(Math.random()-.5)*spread*0.35).toFixed(1);
+    // clamp within a bit outside target H/L to allow wicks
+    t.c=+Math.max(t.targetL-spread*0.08, Math.min(t.targetH+spread*0.08, t.c)).toFixed(1);
+    t.h=+Math.max(t.h, t.c).toFixed(1);
+    t.l=+Math.min(t.l, t.c).toFixed(1);
     t.step++;
     if(position)renderPosCard();
     drawLiveTick();
     if(t.step>=t.totalSteps){
-      // bar closes: snap to final values before clearing
+      // bar closes: snap to exact final OHLC
       t.c=bar.c; t.h=bar.h; t.l=bar.l;
       clearInterval(liveTick);liveTick=null;
       liveCurrentBar=null;
       vis++;
+      if(panOffset>0)panOffset=0;
       updateHeader();
-      document.getElementById('liveModeBadge').style.display='none';
-      if(vis<=candles.length-1){draw();setTimeout(startLiveTick,120);}
-      else{draw();playing=false;document.getElementById('playBtn').textContent='▶';sbMsg('Session complete — press ↺ for new session');}
+      draw();
+      if(!playing)return;
+      if(vis<candles.length){
+        const spd=parseInt(document.getElementById('speedSel').value)||450;
+        setTimeout(startLiveTick, spd);
+      } else {
+        playing=false;
+        document.getElementById('playBtn').textContent='▶';
+        if(liveEl)liveEl.style.display='none';
+        sbMsg('Session complete — press ↺ for new session');
+      }
     }
   },50);
 }
@@ -783,13 +798,13 @@ function startLiveTick(){
 function drawLiveTick(){
   if(!liveCurrentBar)return;
   draw(); // draw confirmed bars
-  // overlay live bar on top
+  // overlay live bar on top — live bar is always at vis (one ahead of last confirmed)
   const{slice,start}=getViewport();
   const sc=getScale(slice,start);
   const{toX,toY,cw}=sc;
-  const liveIdx=vis; // index of the forming bar in viewport
-  const liveVpIdx=liveIdx-start;
-  if(liveVpIdx<0||liveVpIdx>=vis_count)return;
+  // live bar position: right after the last confirmed candle in viewport
+  const liveVpIdx=slice.length; // one slot to the right of last confirmed
+  // x position: even if beyond vis_count, still draw (it's the rightmost slot)
   const x=toX(liveVpIdx);
   const lb=liveCurrentBar;
   const isUp=lb.c>=lb.o;
@@ -820,7 +835,7 @@ function toggleLiveMode(){
     btn.style.borderColor=isLiveMode?'var(--dn)':'';
     btn.style.color=isLiveMode?'var(--dn)':'';
     btn.style.background=isLiveMode?'rgba(255,77,109,.1)':'';
-    btn.textContent=isLiveMode?'📡 Tick ON':'📡 Tick';
+    btn.textContent=isLiveMode?'📡 Tick ON（收線前跳動）':'📡 Tick（收線前跳動）';
   }
   document.getElementById('liveModeBadge').style.display=isLiveMode&&playing?'':'none';
   notify(isLiveMode?'📡 實盤Tick模擬 ON — K棒收線前隨機跳動':'📡 Tick模擬 OFF','info');
@@ -865,7 +880,7 @@ function newSession(){
   document.getElementById('liveModeBadge').style.display='none';
   isLiveMode=false;
   const lBtn=document.getElementById('liveTickToggle');
-  if(lBtn){lBtn.textContent='📡 Tick';lBtn.style.borderColor='';lBtn.style.color='';lBtn.style.background='';}
+  if(lBtn){lBtn.textContent='📡 Tick（收線前跳動）';lBtn.style.borderColor='';lBtn.style.color='';lBtn.style.background='';}
   showCloseBtn(false);
   document.getElementById('posCard').style.display='none';
   document.getElementById('posCardM').style.display='none';
