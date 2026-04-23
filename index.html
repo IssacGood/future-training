@@ -816,9 +816,15 @@ function drawLiveTick(){
   if(isUp){ctx.fillStyle=color;ctx.fillRect(x-cw/2,bTop,cw,bH);}
   else{ctx.fillStyle='rgba(255,77,109,.14)';ctx.fillRect(x-cw/2,bTop,cw,bH);ctx.strokeRect(x-cw/2,bTop,cw,bH);}
   ctx.globalAlpha=1;
-  // live price pill (left axis)
+  // live tick: dashed line + yellow pill
   const{W,pad}=sc;
   const liveY=toY(lb.c);
+  // dashed line
+  ctx.save();
+  ctx.strokeStyle='rgba(255,200,50,.5)';ctx.lineWidth=1;ctx.setLineDash([4,4]);
+  ctx.beginPath();ctx.moveTo(pad.left,liveY);ctx.lineTo(W-pad.right,liveY);ctx.stroke();
+  ctx.setLineDash([]);ctx.restore();
+  // pill
   ctx.fillStyle='rgba(255,200,50,.9)';
   ctx.fillRect(2,liveY-8,pad.left-4,15);
   ctx.fillStyle='#111';ctx.font='bold 9px IBM Plex Mono,monospace';ctx.textAlign='right';
@@ -837,8 +843,27 @@ function toggleLiveMode(){
     btn.style.background=isLiveMode?'rgba(255,77,109,.1)':'';
     btn.textContent=isLiveMode?'📡 Tick ON（收線前跳動）':'📡 Tick（收線前跳動）';
   }
-  document.getElementById('liveModeBadge').style.display=isLiveMode&&playing?'':'none';
-  notify(isLiveMode?'📡 實盤Tick模擬 ON — K棒收線前隨機跳動':'📡 Tick模擬 OFF','info');
+  const badge=document.getElementById('liveModeBadge');
+  if(badge) badge.style.display=isLiveMode&&playing?'':'none';
+  notify(isLiveMode?'📡 Tick ON — K棒收線前隨機跳動':'📡 Tick OFF','info');
+  // if already playing, switch mode on-the-fly
+  if(playing){
+    // stop current playback
+    clearInterval(timer);timer=null;
+    if(liveTick){clearInterval(liveTick);liveTick=null;liveCurrentBar=null;}
+    // restart in new mode
+    if(isLiveMode){
+      if(badge) badge.style.display='';
+      startLiveTick();
+    } else {
+      if(badge) badge.style.display='none';
+      const spd=parseInt(document.getElementById('speedSel').value)||450;
+      timer=setInterval(()=>{
+        if(vis<candles.length){vis++;if(panOffset>0)panOffset=0;draw();updateHeader();}
+        else{clearInterval(timer);playing=false;document.getElementById('playBtn').textContent='▶';sbMsg('Complete ('+barsToTime(vis)+') — press ↺');}
+      },spd);
+    }
+  }
 }
 
 function togglePlay(){
@@ -1086,13 +1111,27 @@ function draw(){
     ctx.fillText((position.dir==='long'?'▲':'▼')+avg.toFixed(0)+'×'+position.totalLots,pad.left-5,avgY+3);
   }
 
-  // ── LIVE PRICE PILL ───────────────────────────────────────
-  if(!isLiveMode&&panOffset===0){
-    const last=candles[vis-1],lastY=toY(last.c);
-    ctx.fillStyle=last.c>=last.o?'rgba(0,212,160,.9)':'rgba(255,77,109,.9)';
-    ctx.fillRect(2,lastY-8,pad.left-4,15);
-    ctx.fillStyle='#0d0f14';ctx.font='bold 9px IBM Plex Mono,monospace';ctx.textAlign='right';
-    ctx.fillText(last.c.toFixed(0),pad.left-5,lastY+3);
+  // ── CURRENT PRICE LINE + PILL ────────────────────────────
+  if(panOffset===0&&vis>0){
+    const last=candles[vis-1];
+    if(last){
+      const lastY=toY(last.c);
+      const isLastUp=last.c>=last.o;
+      const lineColor=isLastUp?'rgba(0,212,160,.45)':'rgba(255,77,109,.45)';
+      const pillColor=isLastUp?'rgba(0,212,160,.9)':'rgba(255,77,109,.9)';
+      // dashed horizontal line across full width
+      ctx.save();
+      ctx.strokeStyle=lineColor;ctx.lineWidth=1;ctx.setLineDash([4,4]);
+      ctx.beginPath();ctx.moveTo(pad.left,lastY);ctx.lineTo(W-pad.right,lastY);ctx.stroke();
+      ctx.setLineDash([]);ctx.restore();
+      // price pill on left axis
+      if(!isLiveMode){
+        ctx.fillStyle=pillColor;
+        ctx.fillRect(2,lastY-8,pad.left-4,15);
+        ctx.fillStyle='#0d0f14';ctx.font='bold 9px IBM Plex Mono,monospace';ctx.textAlign='right';
+        ctx.fillText(last.c.toFixed(0),pad.left-5,lastY+3);
+      }
+    }
   }
 
   drawOverlays(slice,start,sc);
